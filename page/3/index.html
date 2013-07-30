@@ -1,0 +1,494 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Jamie's Space</title>
+  <meta name="author" content="Jamie Penney">
+
+  
+  <meta name="description" content="The first thing I did before collecting any money was set up a separate bank account. I got another Fast Saver, which is currently offering 7.75% &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.jamiepenney.co.nz/page/3">
+  <link href="/favicon.ico" rel="icon">
+  
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jamie's Space" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1>Jamie's Space</h1>
+  
+    <h2><a href="/">JP</a></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation">
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.jamiepenney.co.nz" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2008/02/23/contracting-experiences-so-far/">Contracting Experiences So Far&#8230;</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-02-23T06:46:00+00:00" pubdate data-updated="true">23<span>rd</span> of February 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The first thing I did before collecting any money was set up a separate bank account. I got another Fast Saver, which is currently offering 7.75% interest per annum. This way I can earn a little interest on my tax before I have to pay it out at the end of the month.</p>
+
+<p>At the end of last week I sent out my first invoice, and received my first bill payment. I used the online PAYE calculator at <a href="http://www.ird.govt.nz/calculators/tool-name/tools-c/calculator-paye-2008.html?id=homepage">PAYE Calculator 2008</a> to calculate my income after tax. I then removed that amount from the business account, leaving the PAYE and GST in there for later payment. This means there is no chance of missing a tax payment, as I have kept the money aside.</p>
+
+<p>I&#8217;ve also been printing out everything (invoices, tax calculations, bank statements showing income and payments) and putting it aside. This should make it easier for me to organise everything when it comes time to pay my taxes. I have asked an accountant (a very helpful family friend) for a bit of advice as to what I should be doing too, and he is doing a bit of research for me.</p>
+
+<p>On the actual work front, everything has been going great so far. Gareth has been very helpful in getting me up to speed on the code base. I&#8217;m currently working on a formatter for TSQL code. I&#8217;ve written a bunch of new code, as well as refactored old code to make it easier to modify. I am also creating a unit test suite to make sure I don&#8217;t break anything. My next major task is to incorporate a whitespace insensitive text diff into our tests - this way I can run the code through the formatter and make sure it hasn&#8217;t removed anything important. Since there is a huge amount of TSQL code to work with, I can just run the formatter over it and throw the before and after code at the diff. If anything gets broken, the diff will pick it up.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2008/02/07/playing-with-antlr/">Playing With ANTLR</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-02-07T06:48:00+00:00" pubdate data-updated="true">7<span>th</span> of February 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today I started doing some research on ANTLR (<a href="http://www.antlr.org/">http://www.antlr.org/</a>), a very powerful parser generator. It compiles language grammars into source code for a number of languages (I am working with C# output mostly, but it primarily creates Java). I am currently learning about Abstract Syntax Trees (<a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree">http://en.wikipedia.org/wiki/Abstract_syntax_tree</a>) and how I could use one of those instead of a Parse Tree (<a href="http://en.wikipedia.org/wiki/Parse_tree">http://en.wikipedia.org/wiki/Parse_tree</a>), which is what I have previously been working with when parsing languages. The major difference is I need to modify whatever language grammar I am using so that it produces an AST. I am hoping this isn&#8217;t too difficult, but we will see how things go over the next few days after I get up to speed on ANTLR. So far it looks promising though. I am impressed with how powerful ANTLR is - because it produces source code, you can embed code in the language specification itself. It looks like it is going to be a bit of fun figuring this all out :-)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2008/02/07/registering-for-gst/">Registering for GST</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-02-07T06:47:00+00:00" pubdate data-updated="true">7<span>th</span> of February 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today I registered for GST using the online form at the IRD website (<a href="https://www.ird.govt.nz/cgi-bin/form.cgi?form=ir360">https://www.ird.govt.nz/cgi-bin/form.cgi?form=ir360</a>) after calling the IRD the other day and asking for a bit more information (they sent me some booklets). This was relatively painless, but necessitated by the fact that I am collecting GST from Slyce on my invoices. The good thing is you can apply to file every six months, which means I don&#8217;t have to worry about it for a while. They also say they might get in touch with you to give you a bit of advice on how to file a GST return. Which sounds pretty good to me.</p>
+
+<p>Another thing I thought about today is ACC. It seems as a self employed person they calculate my ACC levies from my IR3 tax return at the end of the year. So I get stung with more bills around tax time. One thing I need to ring them and ask about is what happens if I stop being self employed half way through the year. Hopefully this should be just a case of ringing them and telling them when the time comes.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2008/01/11/joining-the-wonderful-world-of-contracting/">Joining the Wonderful World of Contracting</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-01-11T06:45:00+00:00" pubdate data-updated="true">11<span>th</span> of January 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today I was offered a contracting position with Slyce (<a href="http://www.slyce.com">http://www.slyce.com</a>), a start up working on an amazing looking code generation tool. It allows the use of generated code without interfering with the ability to modify these files. Each file can be modified at will, and ArchAngel (<a href="http://www.slyce.com/ArchAngel/">http://www.slyce.com/ArchAngel/</a>) will be able to reconcile those changes with any that it makes should the project be regenerated. I encourage you to read more about it - there&#8217;s not a lot of information about it on the website currently but that should change soon.</p>
+
+<p>Expect to see a few posts dealing with the issues related to working as a contractor - I have to pay my own taxes and what not so I will try to detail how I went about the process in the hope that it proves useful to someone else.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2008/01/11/architecture-chat/">Architecture Chat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-01-11T06:44:00+00:00" pubdate data-updated="true">11<span>th</span> of January 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I went along to the Sylvia Park Architecture Chat (<a href="http://wiki.bittercoder.com/Default.aspx?Page=SylviaParkArchitectureChats">http://wiki.bittercoder.com/Default.aspx?Page=SylviaParkArchitectureChats</a>) yesterday in order to have a chat with some of the guys. It was great, I love talking (and listening) to other developers in a social setting. The chat is basically a way of getting a bunch of developers together to talk about things they have experienced lately, and discuss issues with like minded people. They have a focus on .Net, but some of the topics are applicable to other spaces as well. I highly encourage everyone to go along, it is well worth the time!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2007/12/16/maven-support-in-netbeans-6-0/">Maven Support in Netbeans 6.0</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-12-16T06:37:00+00:00" pubdate data-updated="true">16<span>th</span> of December 2007</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today I started writing the message exchange beans for my ServiceMix/virtualisation benchmark. I have previously used Netbeans to develop these, but it usually requires manually adding the library JARs from the ServiceMix directory (plus any others it depends on) which is a bit of a pain.</p>
+
+<p>Not so anymore! I installed the Maven plugin for Netbeans when I first installed it, with the intention of trying it out. While I was trying to add the java source directory of the bean service unit I am developing I noticed that the directory was showing up as a Netbeans project (they have a different icon to regular directories in the Netbeans file dialogs). I opened it up as a project instead, and it gave me a project with all of the library files added, the ability to modify parts of the POM using a form, easy access to sub-projects (if you open the root project up first), easy access to resources, the works. I am so impressed with this.</p>
+
+<p>It even gives you the ability to execute any Maven goal from within Netbeans. This is great - usually when developing things for ServiceMix I have a number of windows open (Netbeans, a few command lines, explorer, notepad++, etc) and things get very cluttered. Now I can set up Maven actions in Netbeans that clean, install and deploy my service assemblies, without needing to switch between windows.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2007/12/11/xslt-meta-tag-output/">XSLT META Tag Output</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-12-11T06:36:00+00:00" pubdate data-updated="true">11<span>th</span> of December 2007</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>My previous problem where the XSLT processor was outputting an unclosed meta tag has been solved. The W3C XSLT spec specifies that the processor should not output a new meta tag if there is one already present. Thus the way to fix the output so it did not add a meta tag was to insert one myself. However there are a few things to note. It will only do it within an html element that has the xhtml namespace. Also, if you do not have a trailing space before the closing / it will not work. See my example below (note I tried to use include-content-type=&#8221;no&#8221; which may or may not have worked. It takes a while to recompile and deploy the service-unit so I haven&#8217;t tried it):</p>
+
+<pre><code>&lt;xsl:output method="xhtml" include-content-type="no"/&gt;  
+&lt;xsl:template match="result"&gt;  
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;  
+  &lt;head&gt;  
+  &lt;meta http-equiv="Content-Type" content="text/html; charset=EUC-JP" /&gt;
+  ...
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2007/12/10/distributed-servicemix-project-now-working/">Distributed ServiceMix Project Now Working</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-12-10T06:32:00+00:00" pubdate data-updated="true">10<span>th</span> of December 2007</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The tutorial app I wrote is now working. There were a few different problems. Firstly, I had removed some information about the secured broker in servicemix.xml and replaced it with a single flow name in a container attribute. I had forgotten about this until I reloaded the config from the distribution. Secondly, I needed to set up multiple static network connectors in activemq.xml, not a single one with multiple I.P. addresses. If put multiple I.P. addresses in a single static() block it will pick one at random and try to connect to it, doing this until it finds a working one then stopping. What is needed is multiple networkConnector elements with a single I.P. address in each static() block. I didn&#8217;t initially know how to do this because if I put two in it would give me an error. This leads to the next point. Thirdly, each networkConnector element needs a unique name (within the broker). So I gave them a name attribute corresponding to the ServiceMix instance they were connecting to. Fourthly, messages from the HTTP consumer service unit cannot be delivered to an endpoint on another ServiceMix instance (at least in my experience). I will post this to the mailing list later to see if there is a reason for this. Fifthly, and most importantly, ServiceMix 3.1.2 just plain does not work in my configuration. Upgrading to 3.2.1 fixed this and everything finally works. Well, except for my XSL transformation. They must have upgraded to a newer version of the XSLT processor (or used a different one), because it now ignores the directives I gave it telling it not to put unclosed <META> tags in because it does that now, even in XML output mode. My root element is an <html> so it may be overriding the xsl:ouput element (which it shouldn&#8217;t). If the XSL transformation does not output valid XML (which requires all tags to be closed) then ServiceMix cannot pass the HTML back to jetty to display to the user. This is my next task.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2007/12/10/broken-motion-sensor-in-my-wii-controller/">Broken Motion Sensor in My Wii Controller</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-12-10T06:31:00+00:00" pubdate data-updated="true">10<span>th</span> of December 2007</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Our flat has been playing Resident Evil 4 on the Wii together (well, one flatmate plays and we all watch and &#8216;advise&#8217;). Said flatmate dropped the nunchuck on the ground mid game and somehow broke the motion sensor in the remote. This resulted in the character constantly swiping their knife, making the game unplayable (you couldn&#8217;t even move). After a quick google search I came across a forum thread where someone had also broken their remote, and one person suggested tapping it quite hard on the back. This fixed mine, and after playing Wii Sports for a bit I can safely say it is fully functioning. That saved me $100, so I thought I would post it here on the off chance that it helps someone else out.</p>
+
+<p><em>Update:</em></p>
+
+<p>Just in case anyone was wondering if I ran into problems with this later, the controller is still fine.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2007/12/04/more-servicemix-woes/">More ServiceMix Woes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-12-04T06:30:00+00:00" pubdate data-updated="true">4<span>th</span> of December 2007</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m still having major issues with ServiceMix. The ServiceMix instances will not connect to each other at all. I&#8217;ve tried everything I can find to configure ActiveMQ to allow message passing between them, but nothing has come of it yet. There are a few tcp connections between the two instances that I can see with netstat, but it doesn&#8217;t show up in jconsole. It has to be an issue with connecting ActiveMQ instances on separate machines, as it seems to work just fine when the ServiceMix instances are both on the same machine. Another puzzling aspect is that the cluster example that ships with ServiceMix works fine across machines, but if I hot deploy components to it instead of using static deployment then they cannot be seen by the other ServiceMix instance. I may have to re-write the config for my application to a static deployment, but I would like to know how to get it working dynamically. This should keep me busy for the week.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/4/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page/2/">Newer &rarr;</a>
+    
+  </div>
+</div>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Jamie Penney -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

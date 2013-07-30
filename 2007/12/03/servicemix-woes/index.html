@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ServiceMix woes - Jamie's Space</title>
+  <meta name="author" content="Jamie Penney">
+
+  
+  <meta name="description" content="I&#8217;ve spent most of today trying to discover why my ServiceMix tutorial application won&#8217;t work when I split the service units across &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.jamiepenney.co.nz/2007/12/03/servicemix-woes">
+  <link href="/favicon.ico" rel="icon">
+  
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jamie's Space" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1>Jamie's Space</h1>
+  
+    <h2><a href="/">JP</a></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation">
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.jamiepenney.co.nz" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ServiceMix Woes</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-12-03T06:28:00+00:00" pubdate data-updated="true">3<span>rd</span> of December 2007</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&#8217;ve spent most of today trying to discover why my ServiceMix tutorial application won&#8217;t work when I split the service units across multiple ServiceMix instances. Although I have specified that I am using the JMS message flow and the ActiveMQ brokers seem to be talking, the messages are not getting delivered. The message sent into the HTTP BC just gives back an exception about not being able to write a non xml fault to a non soap request. I have eliminated the virtual machines as the source of the error - this happens between instances running on separate windows machines within our home LAN as well. I have made sure that it is possible to have ServiceMix instances auto-discover each other by running the Cluster example on two separate machines. I have also checked that the Cluster example works between virtual machines. I can only assume that there is a problem in how ServiceMix is set up by default - something I will have to check by trying to create a simple example that is deployed rather than uses a stand-alone ServiceMix instance. Another option is to upgrade to the latest version of ServiceMix and see if they have changed the configuration (I didn&#8217;t want to upgrade as I&#8217;ve written and tested the tutorial on 3.1.2).</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about" title="About the author (Jamie)" rel="author">Jamie</a></span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-12-03T06:28:00+00:00" pubdate data-updated="true">3<span>rd</span> of December 2007</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/servicemix/'>ServiceMix</a>, <a class='category' href='/categories/summer-project/'>Summer Project</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.jamiepenney.co.nz/2007/12/03/servicemix-woes/" data-via="jamiepenney" data-counturl="http://www.jamiepenney.co.nz/2007/12/03/servicemix-woes/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/2007/12/04/more-servicemix-woes/" title="next Post: More ServiceMix Woes">More ServiceMix Woes &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Jamie Penney -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>TechEd 08 - Day 3 - Jamie's Space</title>
+  <meta name="author" content="Jamie Penney">
+
+  
+  <meta name="description" content="DEV375: Reactive Programming - Ivan Towlson History of developing for windows clients Win16/Win32 - Procedural style (message loops)
+ActiveX/Visual &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.jamiepenney.co.nz/2008/09/04/teched-08-day-3">
+  <link href="/favicon.ico" rel="icon">
+  
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jamie's Space" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1>Jamie's Space</h1>
+  
+    <h2><a href="/">JP</a></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation">
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.jamiepenney.co.nz" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">TechEd 08 - Day 3</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-04T07:01:00+00:00" pubdate data-updated="true">4<span>th</span> of September 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>DEV375: Reactive Programming - Ivan Towlson</h3>
+
+<ul>
+<li><p>History of developing for windows clients</p>
+
+<ul>
+<li><p>Win16/Win32 - Procedural style (message loops)</p></li>
+<li><p>ActiveX/Visual Basic - Limited OO style, events + components</p></li>
+<li><p>Windows Forms - Component oriented style</p></li>
+<li><p>Common themes</p>
+
+<ul>
+<li><p>Write code to copy data from model to control</p></li>
+<li><p>Write code to detect changes in control data</p></li>
+<li><p>Write code to copy data from control to model</p></li>
+<li><p>Detect changes in model data or use gatekeeper</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>What is better about WPF/Silverlight?</p>
+
+<ul>
+<li><p>Enhanced component model encapsulates common plumbing.</p></li>
+<li><p>Designer-developer workflow needs a declarative programming style to work well.</p></li>
+<li><p>Hard to write robust OO/procedural code against a lookless model.</p></li>
+</ul>
+</li>
+<li><p>Reactive programming is like binding values together. Think like how you can create formula&#8217;s in Excel - changing the value of one of the cells in a formula updates the result of the formula, and it keeps doing it.</p></li>
+<li><p>Benefits</p>
+
+<ul>
+<li><p>Remove plumbing code, no need to track changes in model and controls and copy data between</p></li>
+<li><p>View/model relationship expressed in view instead of in controller/presenter code. Express the what, not the how.</p></li>
+<li><p>Works well with the lookless approach - view reacts to model change, rather than the model manipulating the view.</p></li>
+</ul>
+</li>
+<li><p>.Net works on a notification system (INotifyPropertyChanged) - when something changes, dependent values re-evaluate themselves.</p></li>
+<li><p>Issues</p>
+
+<ul>
+<li><p>We need to react to changes to derived data -> use converters for this.</p></li>
+<li><p>A reactive expression may produce unacceptable values (user input?). Solution is to use validation.</p></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Bindable LINQ</p>
+
+<ul>
+<li><p>How do you query an ObservableCollection? How do you observably query an ObservableCollection?</p></li>
+<li><p>LINQ queries don&#8217;t provide change notification!</p></li>
+<li><p>Bindable LINQ is a community project to enable reactive controls to back easily onto LINQ queries</p></li>
+<li><p>Key API : AsBindable() - extension method on IEnumerable<T></p></li>
+</ul>
+
+
+<h3>SEC201: Do These Ten Things or Get Own3d - Steve Riley</h3>
+
+<h4>1. Use precise terminology</h4>
+
+<ul>
+<li><p>Vulnerability - The problem</p>
+
+<ul>
+<li><p>Code</p></li>
+<li><p>Configuration</p></li>
+<li><p>Circumvention - Security rules that are so draconian that they encourage people to actively try to get around it.</p></li>
+</ul>
+</li>
+<li><p>Threat - The person that carries out the attack</p>
+
+<ul>
+<li><p>External</p></li>
+<li><p>Internal</p></li>
+</ul>
+</li>
+<li><p>Exploit - the code that exploits the vulnerability</p></li>
+<li><p>Exposure - The cost of the attack being carried out.</p></li>
+<li><p>Risk</p></li>
+</ul>
+
+
+<h4>2. Accept that no one will like you</h4>
+
+<h4>3. Think like a bad guy</h4>
+
+<p>People will not like you for this either.</p>
+
+<h4>4. Understand the science</h4>
+
+<ul>
+<li><p>Identity is not Authentication.</p></li>
+<li><p>Encryption is not Integrity</p></li>
+<li><p>Inspection is not Intent - Can&#8217;t tell intent by looking at someone&#8217;s stuff.</p></li>
+<li><p>Secrecy is not Trust - just because you can make something a secret, doesn&#8217;t mean you can trust it.</p></li>
+<li><p>People are not Technology - All the technology in the world will not solve your technology problem.</p></li>
+<li><p>&#8220;Defence in depth&#8221; = &#8220;I am a parrot&#8221;</p></li>
+<li><p>Stupidity is not Malice</p></li>
+<li><p>Usability and Security are a tradeoff.</p></li>
+</ul>
+
+
+<h4>5. Protect your gear</h4>
+
+<ul>
+<li><p>Patch your stuff.</p></li>
+<li><p>Use the firewall.</p></li>
+<li><p>Don&#8217;t run as admin, or reduce number of admins.</p></li>
+<li><p>Install anti-malware, or scan fileshares.</p></li>
+<li><p>Don&#8217;t tweak.</p></li>
+<li><p>Rebuild, don&#8217;t disinfect.</p></li>
+</ul>
+
+
+<h4>6. Swallow your pride</h4>
+
+<ul>
+<li>Read up
+
+<ul>
+<li><p>Microsoft</p></li>
+<li><p><a href="http://www.sans.org">www.sans.org</a></p></li>
+<li><p><a href="http://www.securityfocus.com">www.securityfocus.com</a></p></li>
+<li><p><a href="http://searchsecurity.techtarget.com">http://searchsecurity.techtarget.com</a></p></li>
+</ul>
+</li>
+</ul>
+
+
+<h4>7. Reconsidering the laws</h4>
+
+<ul>
+<li><p>Law 1: If a bad guy can persuade you to run his program on your computer, it is not yours anymore.</p></li>
+<li><p>Law 2: If a bad guy can alter the operating system on your computer, it&#8217;s not yours anymore.</p></li>
+<li><p>Law 3: If a bad guy has unrestricted physical access to your computer, it&#8217;s not your computer anymore.</p></li>
+<li><p>Law 4: If you allow a bad guy to upload programs to your website, it&#8217;s not your website anymore.</p></li>
+<li><p>Law 5: Weak passwords trump strong security.</p></li>
+<li><p>Law 6: A computer is only as secure as the administrator is trustworthy.</p></li>
+<li><p>Law 7: Encrypted data is only as secure as the decryption key.</p></li>
+<li><p>Law 8: An out of date is <strike>only marginally better</strike> worse than no virus scanner at all.</p></li>
+<li><p>Law 9: Absolute anonymity isn&#8217;t practical, in real life or on the web.</p></li>
+<li><p>Law 10: Technology is not a panacea.</p></li>
+</ul>
+
+
+<h4>8. Classify, and classify again.</h4>
+
+<ul>
+<li><p>Access</p>
+
+<ul>
+<li>Principle of least privilege - others and yourself. If this principle interferes with your business process and is part of the OS, email Steve.</li>
+</ul>
+</li>
+<li><p>Data</p>
+
+<ul>
+<li>Confidentiality, retention, recovery.</li>
+</ul>
+</li>
+<li><p>Trust</p>
+
+<ul>
+<li>Functions, directions.</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>9. Don&#8217;t let your guard down.</h4>
+
+<ul>
+<li><p>People are always trying to sell you silver bullets/snake oil.</p></li>
+<li><p>Trustworthy people will discuss the downsides of their software</p></li>
+</ul>
+
+
+<h4>10. Protection, not restriction.</h4>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about" title="About the author (Jamie)" rel="author">Jamie</a></span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-04T07:01:00+00:00" pubdate data-updated="true">4<span>th</span> of September 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/useful-information/'>Useful Information</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.jamiepenney.co.nz/2008/09/04/teched-08-day-3/" data-via="jamiepenney" data-counturl="http://www.jamiepenney.co.nz/2008/09/04/teched-08-day-3/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2008/09/02/teched-08-day-2/" title="Previous Post: TechEd 08 - Day 2">&laquo; TechEd 08 - Day 2</a>
+      
+      
+        <a class="basic-alignment right" href="/2009/02/10/viewing-dependencies-between-projects-in-visual-studio/" title="next Post: Viewing Dependencies Between Projects in Visual Studio">Viewing Dependencies Between Projects in Visual Studio &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Jamie Penney -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

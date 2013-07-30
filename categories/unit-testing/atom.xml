@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Unit Testing | Jamie's Space]]></title>
+  <link href="http://www.jamiepenney.co.nz/categories/unit-testing/atom.xml" rel="self"/>
+  <link href="http://www.jamiepenney.co.nz/"/>
+  <updated>2013-04-14T03:49:49+00:00</updated>
+  <id>http://www.jamiepenney.co.nz/</id>
+  <author>
+    <name><![CDATA[Jamie Penney]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Testing content_for in Rails 3.x Helpers with RSpec]]></title>
+    <link href="http://www.jamiepenney.co.nz/2011/09/23/testing-content_for-in-rails-3-x-helpers-with-rspec/"/>
+    <updated>2011-09-23T17:37:43+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2011/09/23/testing-content_for-in-rails-3-x-helpers-with-rspec</id>
+    <content type="html"><![CDATA[<p>After having a quick look around the net (and not finding anything up to date and useful) I came up with the following basic test structure for testing my ApplicationHelper methods that served up content_for things like page titles, javascript includes, etc:</p>
+
+<pre><code>require 'spec_helper'
+
+describe ApplicationHelper do
+  describe "title" do
+    it "should call content_for(:title) with the title passed" do
+      helper.title("title stuff")
+      helper.content_for(:title).should == "title stuff"
+    end
+  end
+end
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NHibernate and the Repository Pattern]]></title>
+    <link href="http://www.jamiepenney.co.nz/2009/12/12/nhibernate-and-the-repository-pattern/"/>
+    <updated>2009-12-12T09:43:43+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2009/12/12/nhibernate-and-the-repository-pattern</id>
+    <content type="html"><![CDATA[<p>I've been writing a small time tracker web application to teach myself <a href="http://www.asp.net/mvc">ASP.Net MVC</a>, and am using NHibernate as the ORM. I'm trying to use best practises while building this app, and one issue I was trying to deal with was whether to build a layer over the top of NHibernate. My first set of controller actions used NHibernate directly, with a dependency injected ISessionFactory. This was fine for simple queries (like get Task with id 1) but it meant more and more of my model concerns were leaking into my Controllers. I had thought that NHibernate provided enough of an abstraction over my model for this to not matter, but I was quite wrong.</p>
+
+<p>Remembering I had seen some argument over whether using a generic repository was a good idea or not, I started searching around and found quite a few blogs saying it was a bad idea. They made sense, and one blog had a <a href="http://www.noctovis.net/blog/index.php/2009/01/22/my-thoughts-about-irepository/">great solution</a>: Create a Repository&lt;T, U> abstract class for common CRUD style operations, inherit your specific Repository from that, and only expose meaningful methods in your interface to client code. The benefits of this approach are many - your client code can only see methods that are applicable to each model class, you don't have to duplicate your common CRUD operations for each model class, and it is easy as pie to unit test.</p>
+
+<p>This last point is the one worth mentioning in my books. The great thing about separation of concerns is it should make things easier to pull apart for unit testing. Because my Repository methods have meaningful names, and are pretty fine grained, my mocking setup looks almost readable. It is immediately obvious from reading my tests that TaskController.List(5) should call ITaskRepository.GetLatestTasks(5). Not only that, but most of the Controller actions have been reduced to "Get this from Repository, return to View" or "Save this thing to the Repository". They are small, obvious methods, and that makes them easier to test, and easier to maintain.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UI Design, Unit Testing, and Related Pains]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/03/29/ui-design-unit-testing-and-related-pains/"/>
+    <updated>2008-03-29T06:49:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/03/29/ui-design-unit-testing-and-related-pains</id>
+    <content type="html"><![CDATA[<h3>Background</h3>
+
+<p>Currently I am working on merging two of the steps in the Workbench part of ArchAngel. The final two steps of the generation process used to be the actual generation of the files you wanted, and the analysis to see which files needed to be merged. This was two screens, one in which the user picked the groups of files to generate, and the other which showed conflict resolution. Only after all conflicts had been resolved could the newly generated and merged files be copied into the user's project directory.</p>
+
+<h3>UI Changes</h3>
+
+<p>This wasn't as easy as it could be. There is no reason why the user needs to go through an additional screen to choose the files - why not just put that on the screen with the analysis so they could choose which files they wanted to keep? So Gareth merged the two screens, shifting the file choosing part to the tree view with checkboxes, and showing the results of the analysis as an icon next to the file in the tree.</p>
+
+<h3>Process Changes</h3>
+
+<p>One thing Gareth wanted to do was generate the files in the background. I set up a process whereby the files would be generated on a background thread, and if the user changed any options in the project, the files would be regenerated. Hopefully most of the files would be generated by the time the user actually got to the final generate and merge screen. We also do the analysis on the same thread once the generation is done.</p>
+
+<h3>Unit Testing</h3>
+
+<p>This process is really the meat of the ArchAngel Workbench - the majority of the processing happens here. Thus I wanted to make sure that I wasn't breaking anything by implementing this background processing, as I had to make a number of changes to make it thread-safe. So I embarked on a quest to make this part of the system as easy to unit test as possible.</p>
+
+<p>I started by completely removing any trace of GUI code from the generation code. This meant removing the background worker references, and replacing all of the code dealing with threading with a helper class I created. This class encapsulated progress reporting and task cancellation, so that we can mock these aspects during testing.</p>
+
+<p>Mocking is a major focus of this process - I want to be able to mock out as much of the system as possible in order to make the unit tests more focused. The thing with mocking/faking the major components in the system is that we can write these mocks/fakes once, and reuse them in all of our tests. This is better than relying on resetting the state of the major components - this is prone to failure if those components change in future. Also it is difficult to prevent behaviour that relies on the underlying environment, such as writing to files and reading from settings files.</p>
+
+<p>On Monday I will start working on creating some mocks for these components, and will add another post with my experiences of this.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Quick Update on Unit Testing]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing/"/>
+    <updated>2008-03-24T06:51:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing</id>
+    <content type="html"><![CDATA[<p>Just thought I would add one more blog post to the millions of others floating around the net about how great unit testing is. I've spent the last week or so designing and implementing a cleaner version of one of the major modules of ArchAngel, and I couldn't have done it without the regression test suite I wrote. It picked up all of those tiny little bugs that you just look over, but will cause you massive grief later on because they exist in parts of the code that "should just work".</p>
+
+<p>The number one lesson I've learned from this is to never assume anything works, even very simple things.</p>
+
+<p>I started reading Pragmatic Unit Testing in C# with NUnit (<a href="http://www.pragprog.com/titles/utc2/pragmatic-unit-testing-in-c-with-nunit-2nd-ed">http://www.pragprog.com/titles/utc2/pragmatic-unit-testing-in-c-with-nunit-2nd-ed</a>) a few days into the design phase, and although I was doing some unit testing it pushed me into implementing more and better tests. It is a really good introduction to both how to unit test, as well as what to test. I highly recommend it for anyone working in C#. They have a Java/JUnit one there too, but I haven't read that one.</p>
+
+<p>In short: Unit testing saved my sanity this week.</p>
+]]></content>
+  </entry>
+  
+</feed>

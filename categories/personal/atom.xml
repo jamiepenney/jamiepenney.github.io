@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Personal | Jamie's Space]]></title>
+  <link href="http://www.jamiepenney.co.nz/categories/personal/atom.xml" rel="self"/>
+  <link href="http://www.jamiepenney.co.nz/"/>
+  <updated>2013-04-14T03:49:49+00:00</updated>
+  <id>http://www.jamiepenney.co.nz/</id>
+  <author>
+    <name><![CDATA[Jamie Penney]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Getting SimpleCov and Spork to play together]]></title>
+    <link href="http://www.jamiepenney.co.nz/2011/09/27/getting-simplecov-and-spork-to-play-together/"/>
+    <updated>2011-09-27T17:12:17+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2011/09/27/getting-simplecov-and-spork-to-play-together</id>
+    <content type="html"><![CDATA[<p>I have been using <a href="https://github.com/colszowka/simplecov">SimpleCov</a> to measure the code coverage of my specifications, and it has been excellent. I would recommend it, if only for how easy it was to get it working with RSpec.</p>
+
+<p>I have run into one problem though - running it under <a href="https://github.com/timcharper/spork">Spork</a> generates no results! As far as I can tell, this is a problem with the way Spork caches your application files. SimpleCov uses the Ruby 1.9 built in profiling features, and either 1.9 or Spork need the files under inspection to be loaded after the profiling has started. Unfortunately your application files aren't reloaded when you are using Spork, that's kind of the point!</p>
+
+<p>Some people seem to be able to get away with merely turning off application file caching in <code>config/environments/test.rb</code>, but that didn't work for me. Instead, I have come up with a different solution: Only turn on code coverage reporting when I run RSpec outside of Spork. At the top of <code>spec/spec_helper.rb</code> I have the following block:</p>
+
+<pre><code>if(ENV["RUN_COVERAGE"])
+  require 'simplecov'
+  SimpleCov.start 'rails' do
+    add_filter "/spec/"
+  end
+  puts "Running coverage tool\n"
+end
+</code></pre>
+
+<p>That way I can run <code>RUN_COVERAGE=true rspec spec/</code> in the root of my application directory, and RSpec will run with SimpleCov enabled. As an added bonus, the code coverage metrics aren't running on every test run, so my tests are faster!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 3 Form builder for Twitter Bootstrap form elements]]></title>
+    <link href="http://www.jamiepenney.co.nz/2011/09/23/rails-3-form-builder-for-twitter-bootstrap-form-elements/"/>
+    <updated>2011-09-23T17:41:42+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2011/09/23/rails-3-form-builder-for-twitter-bootstrap-form-elements</id>
+    <content type="html"><![CDATA[<p><strong>Edit: I have updated this for Bootstrap 2. See the links at the bottom of the page for both versions.</strong></p>
+
+<p>I have been working on a website in my spare time to help me organise my life a bit better, and one of the things that always trips me up with these kinds of projects is the visual style. For a while I had a basic fixed width style I used, but it didn't really fit properly with what I wanted to build. A little while after I had started, Twitter released <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, a nice looking CSS framework. I decided to have a go at using it on my site (in a separate git branch of course) and it ended up only taking me less than an hour to get it all up and looks alright.</p>
+
+<p>One thing that bothered me though was the repetition in my forms - the format for showing labels that line up nicely next to the form elements was the same across all input types, and so was the error handling. This got me thinking: why should I retype all of this when the Rails FormBuilder class is already doing half the work? Surely I could just override some of the methods to make this work?</p>
+
+<p>I needed to learn more about Ruby metaprogramming to get it to work - I still wanted the core functionality of the default rails FormBuilder, just with some extra DOM nodes wrapped around it. Ruby lets you redefine methods at runtime, but also allows you to alias the old methods so you can refer to them inside your new version of the method. So I ended up writing a method that does the Bootstrap boilerplate DOM wrapper creation and calls the original method to generate the input element itself.</p>
+
+<p>I still haven't overridden all of the FormBuilder methods because I need to actually test them (and I don't have a use for them yet), but the basics are here in this Gist: <a href="https://gist.github.com/1236567">https://gist.github.com/1236567</a>. The methods I have overridden are in basic_helpers, the ones that output multiple inputs are in multipart_helpers. The great thing is I have only had to add method names to those two arrays as needed - none of the input types have needed special casing. This might not be the case for all of them, but one can only hope. If you do find this useful, or want to add and test some more of the helpers, please fork my Gist and leave me a comment.</p>
+
+<p><strong>Edit:</strong> Here are links to both the v1 and v2 form builders:</p>
+
+<p>Version 1 form builder:
+<a href="https://gist.github.com/1236567">https://gist.github.com/1236567</a>
+Version 2 form builder:
+<a href="https://gist.github.com/1829710">https://gist.github.com/1829710</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Testing content_for in Rails 3.x Helpers with RSpec]]></title>
+    <link href="http://www.jamiepenney.co.nz/2011/09/23/testing-content_for-in-rails-3-x-helpers-with-rspec/"/>
+    <updated>2011-09-23T17:37:43+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2011/09/23/testing-content_for-in-rails-3-x-helpers-with-rspec</id>
+    <content type="html"><![CDATA[<p>After having a quick look around the net (and not finding anything up to date and useful) I came up with the following basic test structure for testing my ApplicationHelper methods that served up content_for things like page titles, javascript includes, etc:</p>
+
+<pre><code>require 'spec_helper'
+
+describe ApplicationHelper do
+  describe "title" do
+    it "should call content_for(:title) with the title passed" do
+      helper.title("title stuff")
+      helper.content_for(:title).should == "title stuff"
+    end
+  end
+end
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dependency Viewer]]></title>
+    <link href="http://www.jamiepenney.co.nz/2010/03/24/dependency-viewer/"/>
+    <updated>2010-03-24T18:07:35+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2010/03/24/dependency-viewer</id>
+    <content type="html"><![CDATA[<p>A while back I posted a quick app I wrote to display dependencies between visual studio projects using GraphViz (<a href="http://jamiepenney.co.nz/2009/02/10/viewing-dependencies-between-projects-in-visual-studio/">here</a>). I've done a bit more work on it since then, cleaning up the project and adding support for custom processing of the graph elements before they are rendered using extensions. I've also put the project on GitHub for ease of updating. You can access that here: <a href="http://github.com/jamiepenney/VS-Dependency-Viewer">http://github.com/jamiepenney/VS-Dependency-Viewer</a></p>
+
+<p>I'm going to talk about how the extension mechanism works. It uses the Managed Extension Framework (MEF), which you can read about here: <a href="http://www.codeplex.com/MEF">http://www.codeplex.com/MEF</a>. You don't need to know a lot about MEF to write an extension - in fact you can get away without knowing anything apart from how to download it and which attribute to use on your extension class.</p>
+
+<p>To create a custom graph processor, you'll need to create a new Class Library project in Visual Studio. This project needs to reference Quickgraph.Graphviz.dll, System.ComponentModel.Composition, and DependencyViewer.Common.dll. The first two you can get from the lib directory in the Dependency Viewer project, and the Common dll you can get by building the DependencyViewer.Common project. Once you've got your project up and running, create a new class that implements DependencyViewer.Common.Interfaces.IGraphProcessor.</p>
+
+<p>The IGraphProcessor interface is pretty basic so far. These are the important methods:</p>
+
+<ul>
+<li><p>PreProcessGraph</p>
+
+<ul>
+<li>This method lets you change formatting options on the graph before the other graph elements are processed. You could use this to set the size, background colour, etc.</li>
+</ul>
+</li>
+<li><p>ProcessEdge</p>
+
+<ul>
+<li>This method lets you change formatting options on a dependency connection after the defaults have been set (there aren't any defaults yet though).</li>
+</ul>
+</li>
+<li><p>ProcessVertex</p>
+
+<ul>
+<li>This method lets you change formatting options on a project node after the defaults have been set. By default the Name is set to the name of the project and the shape is set to Ellipse.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>You can have blank implementations of any methods you don't need.</p>
+
+<p>To get the main application to find your custom graph  processor, you just have to register it as an implementation of  IGraphProcessor by adding the Export attribute to your implementation.  So in this case, you'd put <code>[Export(typeof(IGraphProcessor))]</code> on your  class.</p>
+
+<p>Once you've done that, build your project, copy the dll into the directory where you are running the main application, and then the magic happens. MEF will automatically pick up your implementation when you next render your solution.</p>
+
+<p>There is an example implementation in the Dependency Viewer project called TestProjectProcessor. It finds non unit testing projects that reference NHibernate and colours them a different colour, so that you can see what projects refer to your data projects. I got the idea from Melle Koning's <a href="http://www.mellekoning.nl/index.php/2010/03/11/project-references-in-ddd">blog post</a> on the subject here.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NHibernate and the Repository Pattern]]></title>
+    <link href="http://www.jamiepenney.co.nz/2009/12/12/nhibernate-and-the-repository-pattern/"/>
+    <updated>2009-12-12T09:43:43+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2009/12/12/nhibernate-and-the-repository-pattern</id>
+    <content type="html"><![CDATA[<p>I've been writing a small time tracker web application to teach myself <a href="http://www.asp.net/mvc">ASP.Net MVC</a>, and am using NHibernate as the ORM. I'm trying to use best practises while building this app, and one issue I was trying to deal with was whether to build a layer over the top of NHibernate. My first set of controller actions used NHibernate directly, with a dependency injected ISessionFactory. This was fine for simple queries (like get Task with id 1) but it meant more and more of my model concerns were leaking into my Controllers. I had thought that NHibernate provided enough of an abstraction over my model for this to not matter, but I was quite wrong.</p>
+
+<p>Remembering I had seen some argument over whether using a generic repository was a good idea or not, I started searching around and found quite a few blogs saying it was a bad idea. They made sense, and one blog had a <a href="http://www.noctovis.net/blog/index.php/2009/01/22/my-thoughts-about-irepository/">great solution</a>: Create a Repository&lt;T, U> abstract class for common CRUD style operations, inherit your specific Repository from that, and only expose meaningful methods in your interface to client code. The benefits of this approach are many - your client code can only see methods that are applicable to each model class, you don't have to duplicate your common CRUD operations for each model class, and it is easy as pie to unit test.</p>
+
+<p>This last point is the one worth mentioning in my books. The great thing about separation of concerns is it should make things easier to pull apart for unit testing. Because my Repository methods have meaningful names, and are pretty fine grained, my mocking setup looks almost readable. It is immediately obvious from reading my tests that TaskController.List(5) should call ITaskRepository.GetLatestTasks(5). Not only that, but most of the Controller actions have been reduced to "Get this from Repository, return to View" or "Save this thing to the Repository". They are small, obvious methods, and that makes them easier to test, and easier to maintain.</p>
+]]></content>
+  </entry>
+  
+</feed>

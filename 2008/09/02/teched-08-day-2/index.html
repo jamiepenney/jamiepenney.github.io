@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>TechEd 08 - Day 2 - Jamie's Space</title>
+  <meta name="author" content="Jamie Penney">
+
+  
+  <meta name="description" content="ARC202: I am not an Architect, I am an architect - Dr. Neil Roodyn Why do most projects fail? There are risks in developing software - laws, quality &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.jamiepenney.co.nz/2008/09/02/teched-08-day-2">
+  <link href="/favicon.ico" rel="icon">
+  
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jamie's Space" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1>Jamie's Space</h1>
+  
+    <h2><a href="/">JP</a></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation">
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.jamiepenney.co.nz" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">TechEd 08 - Day 2</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-02T07:00:00+00:00" pubdate data-updated="true">2<span>nd</span> of September 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>ARC202: I am not an Architect, I am an architect - Dr. Neil Roodyn</h3>
+
+<ul>
+<li><p>Why do most projects fail?</p>
+
+<ul>
+<li><p>There are risks in developing software - laws, quality, misunderstood business needs, etc.</p></li>
+<li><p>Unhappy customers.</p></li>
+</ul>
+</li>
+<li><p>History</p>
+
+<ul>
+<li><p>Pioneering era - early computing. Software Development Process: Chaotic.</p></li>
+<li><p>Stabilizing era - First demand for programmers,structure comes to development. SDP: Predictability. Based on engineering discipline.</p></li>
+<li><p>Micro era - Drop in price of computing, more customer expectations.</p></li>
+<li><p>Internet era - mid 90&#8217;s till present. Interconnectivity, change in pace of development. Customer expectations have outpaced developer abilities. SDP: Adaptive.</p></li>
+</ul>
+</li>
+<li><p>Predictability might be impossible in a creative field.</p></li>
+<li><p>Requirements change in every project. &#8220;Change is Inevitable&#8221;.</p></li>
+<li><p>Software needs to move away from the separation of architect and developer.</p></li>
+<li><p>The majority of the cost of a system is usually the software development, and the major component of that is personal costs.</p></li>
+<li><p>Craftsmanship is a different approach to software development.</p>
+
+<ul>
+<li><p>Needs dedication - constant learning.</p></li>
+<li><p>Duplication of software is low cost - this makes it more difficult to get revenue from your work.</p></li>
+<li><p>Mentoring - Share experiences and knowledge.</p></li>
+<li><p>Taking time out to think about things in the background - some of the best ideas are discovered while not actively thinking about the problem.</p></li>
+<li><p>Accomplishment.</p></li>
+<li><p>Need to set up processes so that developers can learn from their own and others mistakes.</p></li>
+</ul>
+</li>
+<li><p>Why promote the best coders into positions where they don&#8217;t write code?</p></li>
+<li><p>Customers have a lot of choices - need to educate them on the tradeoff between cost and quality.</p></li>
+<li><p>Happy developers create better quality code.</p></li>
+<li><p>High quality software is possible - needs good supporting tools.</p></li>
+<li><p>People over process.</p></li>
+</ul>
+
+
+<h3>SEC314: Secure Development Patterns - How not to screw yourself during development - Corneliu L. Tusnea</h3>
+
+<ul>
+<li><p>Distributed authentication systems work by verifying security tokens are valid, rather than verifying usernames and passwords on each service. The more times the password verification code has to be repeated the more chances there are for data leakage or failure.</p></li>
+<li><p>Security should not be part of the code, it should be part of some external configuration - what user can use what services.</p>
+
+<ul>
+<li>You still need to set attributes in code to determine what services to manage with security. This provides a better security model as there is only one place for look for specific security policy, and the code only needs to be referred to determine if it can be configured with security policy.</li>
+</ul>
+</li>
+<li><p>XSS protection is difficult to do yourself - the Microsoft security guys have written a library called AntiXSS, use that. HtmlEncode does not protect against XSS attacks. You should create a basic replacement for Label and Literal that AntiXSS encodes the text it displays and set up a TagMap to these new tags.</p></li>
+<li><p>Validators are a source of duplication in a system.</p></li>
+<li><p>Exceptions can leak information if used naively. A better method is to attach an enum to your exceptions, and to show a message based off of that. This gives you an easy way of internationalising error messages too.</p></li>
+</ul>
+
+
+<h3>WEB305: Pumping Iron: Dynamic Languages on .Net - Harry Pierson</h3>
+
+<ul>
+<li><p>Tradeoff between Type Safety and Flexibility</p>
+
+<ul>
+<li>Rails ActiveRecord example - AR adds the column names of a table as properties on the model class at run time.</li>
+</ul>
+</li>
+<li><p>Real products are being shipped on IronPython - ResolverOne</p></li>
+<li><p>Dynamic languages are very productive - good for initial work on greenfield projects.</p></li>
+<li><p>Dynamic languages are not as fast as Static languages, so optimise by replacing slow parts of Iron(Ruby/Python) with C#. This is easy in the Iron* languages.</p></li>
+<li><p>Dynamic Languages are easy to teach and learn.</p>
+
+<ul>
+<li>Short on Ceremony - You don&#8217;t have to add extra stuff like package management or class creation to python if you don&#8217;t want to.</li>
+</ul>
+</li>
+<li><p>Formatting and whitespace matters. All Python code looks the same, so it is easy to start working with someone else&#8217;s code.</p></li>
+<li><p>Dynamic languages are powerful.</p>
+
+<ul>
+<li><p>AOP is easy in Python - it is possible to pass functions around as they are first level citizens, or you can use decorators to wrap functions.</p></li>
+<li><p>You can create new types at runtime - example given was an XML to Python loader, which created Python objects from any given XML document.</p></li>
+</ul>
+</li>
+<li><p>Iron* languages are first class .Net citizens.</p>
+
+<ul>
+<li>Interop with other .Net code. Easy to use C# or VB.Net code from Iron<em> languages, but it is harder to go the other way. Standard .Net assemblies just work in Iron</em>.</li>
+</ul>
+</li>
+<li><p>Iron* languages are embeddable by using the DLR.</p></li>
+<li><p>Microsoft are working on integration with Visual Studio currently, due in 2009.</p></li>
+<li><p>IronRuby and IronPython are both true Open Source.</p></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about" title="About the author (Jamie)" rel="author">Jamie</a></span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-02T07:00:00+00:00" pubdate data-updated="true">2<span>nd</span> of September 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/useful-information/'>Useful Information</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.jamiepenney.co.nz/2008/09/02/teched-08-day-2/" data-via="jamiepenney" data-counturl="http://www.jamiepenney.co.nz/2008/09/02/teched-08-day-2/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2008/09/01/code-camp-2008/" title="Previous Post: Code Camp 2008">&laquo; Code Camp 2008</a>
+      
+      
+        <a class="basic-alignment right" href="/2008/09/04/teched-08-day-3/" title="next Post: TechEd 08 - Day 3">TechEd 08 - Day 3 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Jamie Penney -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

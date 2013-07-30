@@ -1,0 +1,863 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Jamie's Space]]></title>
+  <link href="http://www.jamiepenney.co.nz/atom.xml" rel="self"/>
+  <link href="http://www.jamiepenney.co.nz/"/>
+  <updated>2013-04-14T03:49:49+00:00</updated>
+  <id>http://www.jamiepenney.co.nz/</id>
+  <author>
+    <name><![CDATA[Jamie Penney]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Getting the most out of Heroku's freebies]]></title>
+    <link href="http://www.jamiepenney.co.nz/2012/10/03/getting-the-most-out-of-herokus-freebies/"/>
+    <updated>2012-10-03T13:05:10+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2012/10/03/getting-the-most-out-of-herokus-freebies</id>
+    <content type="html"><![CDATA[<p>I used to use <a href="http://www.heroku.com">Heroku</a> a few years back whenever I needed a little bit of Ruby on Rails hosting, but then I started needing background workers (which you can&#8217;t get for free) and larger databases so I shifted to self-hosting. I already had a Rimuhosting VPS, so it didn&#8217;t make sense to spend money when I didn&#8217;t need to.</p>
+
+<p>I&#8217;ve gotten sick of having to write cron jobs and organise monitoring and all that sort of busy work for what are pretty basic sites, so I decided to have another shot at using Heroku.</p>
+
+<p>Turns out my current side project (a place my family and I can record and share our weight loss goals) fits within the free tier for everything except for the email notification jobs. Drat. Luckily I can minimise the cost of this by using a gem called <a href="https://github.com/meskyanichi/hirefire">HireFire</a>. I will only need maybe a few minutes of worker time per month, and this gem will make sure that workers are spun up and down as needed so I don&#8217;t waste any money I don&#8217;t need to.</p>
+
+<p>On top of that, there are a number of free <a href="https://addons.heroku.com/">Heroku Addons</a> that can keep everything speedy on a low use site. The <a href="https://addons.heroku.com/memcache">Memcache</a> addon has a 5MB free option that you can hook into Rack::Cache and Rails for faster caching. If you are on a small site you will still get a bit of extra speed out of that.</p>
+
+<p>This next trick is a bit cheeky, but it kinda fits with my monitoring needs any way. The <a href="https://addons.heroku.com/newrelic">New Relic</a> addon offers uptime monitoring (as well as short term site performance stats), which it gives you by pinging your site on a scheduled basis. This has the side effect of keeping your app running - Heroku will shut down a free site that hasn&#8217;t been hit in a while. Still not sure if I&#8217;m ok with this or not&#8230;</p>
+
+<p>There is one more thing you might overlook - Gzip compression of static assets. Heroku&#8217;s Cedar stack serves requests directly (see the <a href="https://devcenter.heroku.com/articles/http-routing">HTTP Routing documentation</a>)to the application stack, so you don&#8217;t get HTTP caching or gzip compression for free. Your app needs to handle these itself, but this is relatively easy. You need two pieces of Rack middleware: Rack::Cache and Rack::Deflater.</p>
+
+<p>For Rack::Cache you will need to add the Memcache addon to your app in Heroku, install the <a href="https://github.com/mperham/dalli">dalli</a> gem and setup the Rack::Cache middleware to use it by adding this to your <code>config/environment/production.rb</code> file:</p>
+
+<p><code>config.middleware.use Rack::Cache,
+:metastore =&gt; "memcached://#{ENV['MEMCACHE_SERVERS']}",
+:entitystore =&gt; "memcached://#{ENV['MEMCACHE_SERVERS']}"
+</code>
+While you are there, set the cache store to use Dalli as well with <code>config.cache_store = :dalli_store</code></p>
+
+<p>Using Rack::Deflater is easy as pie. In <code>config.ru</code> add the following right above your <code>run MyApp::Application</code> line:
+<code>
+use Rack::Deflater
+</code>
+In theory you shouldn&#8217;t need to do this. Rails 3.1 added Rack::Deflater by default, but the Cedar stack on Heroku <a href="http://stackoverflow.com/questions/7824570/heroku-conflict-between-gzipping-assets-and-precompiling-assets">doesn&#8217;t seem to do it</a>. An unfortunate side effect of adding Deflater this way is it will gzip everything, including images. I&#8217;m still thinking of a way to get around this, probably with my own middleware wrapper around Deflater.</p>
+
+<p>That&#8217;s all I&#8217;ve done so far and things are pretty snappy. If you have any other tips for making the most out of Heroku, let me know in the comments.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Getting SimpleCov and Spork to play together]]></title>
+    <link href="http://www.jamiepenney.co.nz/2011/09/27/getting-simplecov-and-spork-to-play-together/"/>
+    <updated>2011-09-27T17:12:17+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2011/09/27/getting-simplecov-and-spork-to-play-together</id>
+    <content type="html"><![CDATA[<p>I have been using <a href="https://github.com/colszowka/simplecov">SimpleCov</a> to measure the code coverage of my specifications, and it has been excellent. I would recommend it, if only for how easy it was to get it working with RSpec.</p>
+
+<p>I have run into one problem though - running it under <a href="https://github.com/timcharper/spork">Spork</a> generates no results! As far as I can tell, this is a problem with the way Spork caches your application files. SimpleCov uses the Ruby 1.9 built in profiling features, and either 1.9 or Spork need the files under inspection to be loaded after the profiling has started. Unfortunately your application files aren&#8217;t reloaded when you are using Spork, that&#8217;s kind of the point!</p>
+
+<p>Some people seem to be able to get away with merely turning off application file caching in <code>config/environments/test.rb</code>, but that didn&#8217;t work for me. Instead, I have come up with a different solution: Only turn on code coverage reporting when I run RSpec outside of Spork. At the top of <code>spec/spec_helper.rb</code> I have the following block:</p>
+
+<pre><code>if(ENV["RUN_COVERAGE"])
+  require 'simplecov'
+  SimpleCov.start 'rails' do
+    add_filter "/spec/"
+  end
+  puts "Running coverage tool\n"
+end
+</code></pre>
+
+<p>That way I can run <code>RUN_COVERAGE=true rspec spec/</code> in the root of my application directory, and RSpec will run with SimpleCov enabled. As an added bonus, the code coverage metrics aren&#8217;t running on every test run, so my tests are faster!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 3 Form builder for Twitter Bootstrap form elements]]></title>
+    <link href="http://www.jamiepenney.co.nz/2011/09/23/rails-3-form-builder-for-twitter-bootstrap-form-elements/"/>
+    <updated>2011-09-23T17:41:42+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2011/09/23/rails-3-form-builder-for-twitter-bootstrap-form-elements</id>
+    <content type="html"><![CDATA[<p><strong>Edit: I have updated this for Bootstrap 2. See the links at the bottom of the page for both versions.</strong></p>
+
+<p>I have been working on a website in my spare time to help me organise my life a bit better, and one of the things that always trips me up with these kinds of projects is the visual style. For a while I had a basic fixed width style I used, but it didn&#8217;t really fit properly with what I wanted to build. A little while after I had started, Twitter released <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, a nice looking CSS framework. I decided to have a go at using it on my site (in a separate git branch of course) and it ended up only taking me less than an hour to get it all up and looks alright.</p>
+
+<p>One thing that bothered me though was the repetition in my forms - the format for showing labels that line up nicely next to the form elements was the same across all input types, and so was the error handling. This got me thinking: why should I retype all of this when the Rails FormBuilder class is already doing half the work? Surely I could just override some of the methods to make this work?</p>
+
+<p>I needed to learn more about Ruby metaprogramming to get it to work - I still wanted the core functionality of the default rails FormBuilder, just with some extra DOM nodes wrapped around it. Ruby lets you redefine methods at runtime, but also allows you to alias the old methods so you can refer to them inside your new version of the method. So I ended up writing a method that does the Bootstrap boilerplate DOM wrapper creation and calls the original method to generate the input element itself.</p>
+
+<p>I still haven&#8217;t overridden all of the FormBuilder methods because I need to actually test them (and I don&#8217;t have a use for them yet), but the basics are here in this Gist: <a href="https://gist.github.com/1236567">https://gist.github.com/1236567</a>. The methods I have overridden are in basic_helpers, the ones that output multiple inputs are in multipart_helpers. The great thing is I have only had to add method names to those two arrays as needed - none of the input types have needed special casing. This might not be the case for all of them, but one can only hope. If you do find this useful, or want to add and test some more of the helpers, please fork my Gist and leave me a comment.</p>
+
+<p><strong>Edit:</strong> Here are links to both the v1 and v2 form builders:</p>
+
+<p>Version 1 form builder:
+<a href="https://gist.github.com/1236567">https://gist.github.com/1236567</a>
+Version 2 form builder:
+<a href="https://gist.github.com/1829710">https://gist.github.com/1829710</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Testing content_for in Rails 3.x Helpers with RSpec]]></title>
+    <link href="http://www.jamiepenney.co.nz/2011/09/23/testing-content_for-in-rails-3-x-helpers-with-rspec/"/>
+    <updated>2011-09-23T17:37:43+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2011/09/23/testing-content_for-in-rails-3-x-helpers-with-rspec</id>
+    <content type="html"><![CDATA[<p>After having a quick look around the net (and not finding anything up to date and useful) I came up with the following basic test structure for testing my ApplicationHelper methods that served up content_for things like page titles, javascript includes, etc:</p>
+
+<pre><code>require 'spec_helper'
+
+describe ApplicationHelper do
+  describe "title" do
+    it "should call content_for(:title) with the title passed" do
+      helper.title("title stuff")
+      helper.content_for(:title).should == "title stuff"
+    end
+  end
+end
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dependency Viewer]]></title>
+    <link href="http://www.jamiepenney.co.nz/2010/03/24/dependency-viewer/"/>
+    <updated>2010-03-24T18:07:35+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2010/03/24/dependency-viewer</id>
+    <content type="html"><![CDATA[<p>A while back I posted a quick app I wrote to display dependencies between visual studio projects using GraphViz (<a href="http://jamiepenney.co.nz/2009/02/10/viewing-dependencies-between-projects-in-visual-studio/">here</a>). I&#8217;ve done a bit more work on it since then, cleaning up the project and adding support for custom processing of the graph elements before they are rendered using extensions. I&#8217;ve also put the project on GitHub for ease of updating. You can access that here: <a href="http://github.com/jamiepenney/VS-Dependency-Viewer">http://github.com/jamiepenney/VS-Dependency-Viewer</a></p>
+
+<p>I&#8217;m going to talk about how the extension mechanism works. It uses the Managed Extension Framework (MEF), which you can read about here: <a href="http://www.codeplex.com/MEF">http://www.codeplex.com/MEF</a>. You don&#8217;t need to know a lot about MEF to write an extension - in fact you can get away without knowing anything apart from how to download it and which attribute to use on your extension class.</p>
+
+<p>To create a custom graph processor, you&#8217;ll need to create a new Class Library project in Visual Studio. This project needs to reference Quickgraph.Graphviz.dll, System.ComponentModel.Composition, and DependencyViewer.Common.dll. The first two you can get from the lib directory in the Dependency Viewer project, and the Common dll you can get by building the DependencyViewer.Common project. Once you&#8217;ve got your project up and running, create a new class that implements DependencyViewer.Common.Interfaces.IGraphProcessor.</p>
+
+<p>The IGraphProcessor interface is pretty basic so far. These are the important methods:</p>
+
+<ul>
+<li><p>PreProcessGraph</p>
+
+<ul>
+<li>This method lets you change formatting options on the graph before the other graph elements are processed. You could use this to set the size, background colour, etc.</li>
+</ul>
+</li>
+<li><p>ProcessEdge</p>
+
+<ul>
+<li>This method lets you change formatting options on a dependency connection after the defaults have been set (there aren&#8217;t any defaults yet though).</li>
+</ul>
+</li>
+<li><p>ProcessVertex</p>
+
+<ul>
+<li>This method lets you change formatting options on a project node after the defaults have been set. By default the Name is set to the name of the project and the shape is set to Ellipse.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>You can have blank implementations of any methods you don&#8217;t need.</p>
+
+<p>To get the main application to find your custom graph  processor, you just have to register it as an implementation of  IGraphProcessor by adding the Export attribute to your implementation.  So in this case, you&#8217;d put <code>[Export(typeof(IGraphProcessor))]</code> on your  class.</p>
+
+<p>Once you&#8217;ve done that, build your project, copy the dll into the directory where you are running the main application, and then the magic happens. MEF will automatically pick up your implementation when you next render your solution.</p>
+
+<p>There is an example implementation in the Dependency Viewer project called TestProjectProcessor. It finds non unit testing projects that reference NHibernate and colours them a different colour, so that you can see what projects refer to your data projects. I got the idea from Melle Koning&#8217;s <a href="http://www.mellekoning.nl/index.php/2010/03/11/project-references-in-ddd">blog post</a> on the subject here.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NHibernate and the Repository Pattern]]></title>
+    <link href="http://www.jamiepenney.co.nz/2009/12/12/nhibernate-and-the-repository-pattern/"/>
+    <updated>2009-12-12T09:43:43+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2009/12/12/nhibernate-and-the-repository-pattern</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve been writing a small time tracker web application to teach myself <a href="http://www.asp.net/mvc">ASP.Net MVC</a>, and am using NHibernate as the ORM. I&#8217;m trying to use best practises while building this app, and one issue I was trying to deal with was whether to build a layer over the top of NHibernate. My first set of controller actions used NHibernate directly, with a dependency injected ISessionFactory. This was fine for simple queries (like get Task with id 1) but it meant more and more of my model concerns were leaking into my Controllers. I had thought that NHibernate provided enough of an abstraction over my model for this to not matter, but I was quite wrong.</p>
+
+<p>Remembering I had seen some argument over whether using a generic repository was a good idea or not, I started searching around and found quite a few blogs saying it was a bad idea. They made sense, and one blog had a <a href="http://www.noctovis.net/blog/index.php/2009/01/22/my-thoughts-about-irepository/">great solution</a>: Create a Repository&lt;T, U> abstract class for common CRUD style operations, inherit your specific Repository from that, and only expose meaningful methods in your interface to client code. The benefits of this approach are many - your client code can only see methods that are applicable to each model class, you don&#8217;t have to duplicate your common CRUD operations for each model class, and it is easy as pie to unit test.</p>
+
+<p>This last point is the one worth mentioning in my books. The great thing about separation of concerns is it should make things easier to pull apart for unit testing. Because my Repository methods have meaningful names, and are pretty fine grained, my mocking setup looks almost readable. It is immediately obvious from reading my tests that TaskController.List(5) should call ITaskRepository.GetLatestTasks(5). Not only that, but most of the Controller actions have been reduced to &#8220;Get this from Repository, return to View&#8221; or &#8220;Save this thing to the Repository&#8221;. They are small, obvious methods, and that makes them easier to test, and easier to maintain.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Windows 7 Shortcut Keys]]></title>
+    <link href="http://www.jamiepenney.co.nz/2009/09/14/windows-7-shortcut-keys/"/>
+    <updated>2009-09-14T12:19:29+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2009/09/14/windows-7-shortcut-keys</id>
+    <content type="html"><![CDATA[<p>I found a great list of keyboard shortcuts for Windows 7 today <a href="http://www.mydigitallife.info/2009/07/31/windows-7-keyboard-shortcuts-accelerator-keys-or-hotkeys-full-listing/">here</a>. The best part of this list were the keys for manipulating windows - Windows + Left Arrow will dock the window to the left hand side of the screen, much like if you drag the window to the side of the screen. The right arrow also works like this.</p>
+
+<p>If you have multiple monitors, using the mouse it doesn&#8217;t let you dock to the side connected to the other screen. So you can only dock to the far left and far right with the mouse. Not so with the keyboard. Each time you hit the keyboard combo, it will move it to the next dock position in that direction. That means you can have windows docked all over your extended desktop, like so:</p>
+
+<p><a href="http://jamiepenney.co.nz/wp-content/uploads/2009/09/desktop.png"><img src="http://jamiepenney.co.nz/wp-content/uploads/2009/09/desktop-300x106.png" alt="Desktop" /></a></p>
+
+<p>I&#8217;ve got two windows on each screen (as you can see, the right hand screen has the task bar, so you should be able to see where the screens split).</p>
+
+<p>This is pretty useful at home. Having huge screens is great, being able to have 4 docked windows without fiddling around with the mouse is fantastic.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fun with the Symbian Emulator]]></title>
+    <link href="http://www.jamiepenney.co.nz/2009/08/08/fun-with-the-symbian-emulator/"/>
+    <updated>2009-08-08T12:52:16+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2009/08/08/fun-with-the-symbian-emulator</id>
+    <content type="html"><![CDATA[<p>The other night I stumbled on the PyS60 project, an open source port of the python runtime to Symbian S60 based phones. I own a Nokia N95, and I got kind of excited about this because I would like to mess around with development for it but can&#8217;t bring myself to work with C++ in my spare time.</p>
+
+<p>I thought it would be pretty easy to develop for as Python is interpreted, I thought I could just edit text files on the phone and run them to test them out. Turns out you can&#8217;t do that (not easily anyway), you need to package them on your computer, then upload the package to the phone, then install it, then run it. That killed that idea.</p>
+
+<p>I looked at the Symbian emulator, and the PyS60 team have a mod for it that installs the python runtime so you can just run script files on the emulated phone. &#8220;This is great!&#8221; I think, before actually trying it.</p>
+
+<p>For starters, the python runtime doesn&#8217;t work in the emulator when the emulator is running on Windows 7 x64 - damn. I have a VPC image with Windows XP on it though, so I fire that up, install everything, then try run it. The emulator crashes after about 15 seconds of loading.</p>
+
+<p>After browsing the Nokia forums for a while, I find out the problem. VPC is actually connecting to the virtual machine over RDP, and so the audio drivers are the RDP Remote Audio drivers.</p>
+
+<p>What do audio drivers have to do with a phone emulator I hear you ask? Good question, but it is one the Nokia forum dwellers have no answer for. Many people have complained that the Symbian Emulator does not work when connecting to the machine hosting it via RDP. There are other issues with particular sound card drivers or applications also causing it to crash. This is a prime example of bad error handling. Why, if the audio part of the emulator cannot work with some drivers, does it crash instead of continuing without audio?</p>
+
+<p>So that brought down my plans for making<a href="http://www.wired.com/gadgetlab/2008/12/iphone-fart-app/"> millions of dollars from fart applications</a> for Symbian based phones.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Strange Visual Studio lockup after debugging]]></title>
+    <link href="http://www.jamiepenney.co.nz/2009/07/20/strange-visual-studio-lockup-after-debugging/"/>
+    <updated>2009-07-20T23:03:51+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2009/07/20/strange-visual-studio-lockup-after-debugging</id>
+    <content type="html"><![CDATA[<p>I had been having an issue with VS 2008 on Windows 7 x64 today. After debugging an application the whole IDE would lock up, minimise itself, then bring itself back to the foreground. This was pretty disruptive and I was getting quite irritated with it, but I could not find any mention of it through Google.</p>
+
+<p>I did happen to stumble upon a StackOverflow question (<a href="http://stackoverflow.com/questions/126472/how-to-stop-right-click-dead-locking-visual-studio-2008/344323#344323">here</a>) where a different problem was outlined, however this answer reminded me of an issue Scott Hanselman had with an app he was doing a demo with, so I thought I would give it the fix a shot. Strangely enough, I think it has fixed it, although I am not sure why (it seems unrelated). Anyway, here is the fix, just in case anyone else has a similar problem:</p>
+
+<p><strong>Fix:</strong>
+Disable checking of Publisher&#8217;s Certificate Revocation</p>
+
+<ol>
+<li><p>Go to Internet Options in Internet Explorer or Control Panel</p></li>
+<li><p>Then go the Security Tab, scroll towards the bottom</p></li>
+<li><p>Uncheck the &#8216;Check for Publisher&#8217;s Certificate Revocation&#8217;  checkbox</p></li>
+<li><p>Click OK.</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[New Monitor]]></title>
+    <link href="http://www.jamiepenney.co.nz/2009/07/13/new-monitor/"/>
+    <updated>2009-07-13T22:20:35+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2009/07/13/new-monitor</id>
+    <content type="html"><![CDATA[<p>Today I got a new 24&#8221; Samsung T240 for my office at home. I&#8217;ve been working from home a lot recently and have really been missing my dual monitor setup from work, even though it is only my laptop with an old 17&#8221; LCD. Two monitors definitely make a big difference to my productivity when coding. I already had a 22&#8221; Samsung 226BW, which now looks thoroughly inadequate next to the 24&#8221; as you can see from the photo below.</p>
+
+<p><img src="http://jamiepenney.co.nz/wp-content/uploads/2009/07/13072009079-1024x768.jpg" alt="My New Desk Arrangement" /></p>
+
+<p>Once I got used to the larger monitor I had a pretty productive day though. The T240 is a decent monitor for developing on, judging from one day&#8217;s usage. Text is clear, and after a little tweaking the colour looked about right, enough for my purposes anyway. Not to mention it is a nice looking monitor. All in all, it was well worth the money I/the business spent on it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Twitter, or How I Learned to Stop Worrying and Love Short Messages]]></title>
+    <link href="http://www.jamiepenney.co.nz/2009/02/10/twitter-or-how-i-learned-to-stop-worrying-and-love-short-messages/"/>
+    <updated>2009-02-10T07:10:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2009/02/10/twitter-or-how-i-learned-to-stop-worrying-and-love-short-messages</id>
+    <content type="html"><![CDATA[<p>Today I took a bold step, swallowed a chunk of my pride, and signed up for <a href="http://www.twitter.com">Twitter</a>. I&#8217;m not usually a big fan of Social Networking, but Twitter is slightly different. For starters, I don&#8217;t think any of my friends are using it. Secondly, There&#8217;s no real &#8220;profile&#8221; like you get from Facebook or others.</p>
+
+<p>I got the idea from <a href="http://ayende.com/Blog/Default.aspx">Ayende&#8217;s blog</a>, kindof. His blog is quite interesting to watch, because it is made up of lots of small updates. It almost seems like more of a note taking system than a blog sometimes, in a good way. For myself, I tend not to write blog posts because they take a little longer than I&#8217;m willing to give during the day to write, so Twitter&#8217;s 140 character limit could work for me. It&#8217;s just a trial anyway, if it doesn&#8217;t work out I&#8217;ll dump it.</p>
+
+<p>So how I think I&#8217;ll work now is: Post short messages to Twitter like reminders, helpful hints, and status updates, and post longer information like information about side projects and interesting topics on my blog.</p>
+
+<p>If anyone wants to follow me on twitter, here&#8217;s my page: <a href="http://twitter.com/jamiepenney">http://twitter.com/jamiepenney</a>. Be aware that there will be a bit more personal stuff there, my blog so far has just been technical but I&#8217;ll probably use Twitter for personal and work messages.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ook Interpreter, Written in C# and F#]]></title>
+    <link href="http://www.jamiepenney.co.nz/2009/02/10/ook-interpreter-written-in-c-and-f/"/>
+    <updated>2009-02-10T07:06:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2009/02/10/ook-interpreter-written-in-c-and-f</id>
+    <content type="html"><![CDATA[<p>Another little short side project I worked on over the weekend was an interpreter for <a href="http://www.dangermouse.net/esoteric/ook.html">Ook</a>, an odd little language &#8220;designed for Orangutans&#8221;. It only has a few syntax elements and 8 different statements so I figured it would be a fun use of my basic F# skills (I&#8217;ve been reading Fundamentals of F# and Expert F# on Safari Books through work). Using the example files on <a href="http://bluesorcerer.net/esoteric/ook.html">bluesorcerer.net</a> as test files, I successfully got it running in half a day. I can&#8217;t say it is the fastest or most efficient interpreter for Ook, but it is my first interpreter so it was a learning experience. If you have any questions or comments on how I implemented it, please feel free to add them below.</p>
+
+<p>Enough talk, here&#8217;s the GitHub project: <a href="http://github.com/jamiepenney/ook-sharp">http://github.com/jamiepenney/ook-sharp</a></p>
+
+<p>You&#8217;ll need the latest <a href="http://www.microsoft.com/downloads/details.aspx?familyid=61ad6924-93ad-48dc-8c67-60f7e7803d3c&amp;displaylang=en">F# CTP</a> installed to open this project in Visual Studio 2008.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Viewing Dependencies Between Projects in Visual Studio]]></title>
+    <link href="http://www.jamiepenney.co.nz/2009/02/10/viewing-dependencies-between-projects-in-visual-studio/"/>
+    <updated>2009-02-10T07:03:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2009/02/10/viewing-dependencies-between-projects-in-visual-studio</id>
+    <content type="html"><![CDATA[<p>A while ago there was a question on <a href="http://www.stackoverflow.com/">Stack Overflow</a> about how one could go about mapping the dependencies between Visual Studio projects and solutions (see here: <a href="http://stackoverflow.com/questions/471154/how-can-i-map-out-which-visual-studio-solutions-use-which-projects">http://stackoverflow.com/questions/471154/how-can-i-map-out-which-visual-studio-solutions-use-which-projects</a>). At the time I had been doing a little bit of work with GraphViz, and suggested that it could be used for the diagramming part. The problem itself seemed kind of interesting, so I decided to implement a solution myself for kicks.</p>
+
+<p>My tool takes a visual studio solution, and produces a PNG image showing the dependencies between the projects in that solution. Pretty basic stuff, but it involves:</p>
+
+<ol>
+<li><p>Parsing a Visual Studio .sln file.</p></li>
+<li><p>Parsing the .csproj files referenced in the .sln file. (I don&#8217;t think it is C# specific but have not tested it on other project types).</p></li>
+<li><p>Creating an in memory representation of the solution structure.</p></li>
+<li><p>Creating a graph in QuickGraph to represent that structure.</p></li>
+<li><p>Creating a dot file for GraphViz from that graph.</p></li>
+<li><p>Pass that file to GraphViz and display the output.</p></li>
+</ol>
+
+
+<p>This results in something like this:</p>
+
+<p><img src="http://lh4.ggpht.com/_TGyXpQbgdXc/SZ0EV6bDodI/AAAAAAAAABs/edRz8Pgnrbg/dv_output%5B5%5D.png?imgmax=800" alt="dv_output" /></p>
+
+<p>The source code is here.</p>
+
+<p><em>Updated</em>: I&#8217;ve put this project on GitHub, and added Melle&#8217;s changes to it. You can find it <a href="http://github.com/jamiepenney/VS-Dependency-Viewer">here</a>.</p>
+
+<p>Feel free to do what you like with it, it only took me about 3-4 hours to get it all working. However if you actually use it as part of another project, please leave a comment.</p>
+
+<p>You&#8217;ll need the latest version of GraphViz, which can be downloaded from here: <a href="http://graphviz.org/Download_windows.php">http://graphviz.org/Download_windows.php</a>. I&#8217;ve been using the development snapshot, but the stable release should be fine. When my tool first runs, it&#8217;ll ask you for the location of graphviz. You need to specify the location of dot.exe, which by default is in %Program Files%\GraphViz 2.21\bin.</p>
+
+<p>Standard disclaimer: I&#8217;m not responsible for anything that goes wrong when using this thing. You have the source, you should check it out before running it. If it wipes your system and kills your firstborn child feel free to let me know, but don&#8217;t expect me to do anything about it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TechEd 08 - Day 3]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/09/04/teched-08-day-3/"/>
+    <updated>2008-09-04T07:01:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/09/04/teched-08-day-3</id>
+    <content type="html"><![CDATA[<h3>DEV375: Reactive Programming - Ivan Towlson</h3>
+
+<ul>
+<li><p>History of developing for windows clients</p>
+
+<ul>
+<li><p>Win16/Win32 - Procedural style (message loops)</p></li>
+<li><p>ActiveX/Visual Basic - Limited OO style, events + components</p></li>
+<li><p>Windows Forms - Component oriented style</p></li>
+<li><p>Common themes</p>
+
+<ul>
+<li><p>Write code to copy data from model to control</p></li>
+<li><p>Write code to detect changes in control data</p></li>
+<li><p>Write code to copy data from control to model</p></li>
+<li><p>Detect changes in model data or use gatekeeper</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>What is better about WPF/Silverlight?</p>
+
+<ul>
+<li><p>Enhanced component model encapsulates common plumbing.</p></li>
+<li><p>Designer-developer workflow needs a declarative programming style to work well.</p></li>
+<li><p>Hard to write robust OO/procedural code against a lookless model.</p></li>
+</ul>
+</li>
+<li><p>Reactive programming is like binding values together. Think like how you can create formula&#8217;s in Excel - changing the value of one of the cells in a formula updates the result of the formula, and it keeps doing it.</p></li>
+<li><p>Benefits</p>
+
+<ul>
+<li><p>Remove plumbing code, no need to track changes in model and controls and copy data between</p></li>
+<li><p>View/model relationship expressed in view instead of in controller/presenter code. Express the what, not the how.</p></li>
+<li><p>Works well with the lookless approach - view reacts to model change, rather than the model manipulating the view.</p></li>
+</ul>
+</li>
+<li><p>.Net works on a notification system (INotifyPropertyChanged) - when something changes, dependent values re-evaluate themselves.</p></li>
+<li><p>Issues</p>
+
+<ul>
+<li><p>We need to react to changes to derived data -> use converters for this.</p></li>
+<li><p>A reactive expression may produce unacceptable values (user input?). Solution is to use validation.</p></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Bindable LINQ</p>
+
+<ul>
+<li><p>How do you query an ObservableCollection? How do you observably query an ObservableCollection?</p></li>
+<li><p>LINQ queries don&#8217;t provide change notification!</p></li>
+<li><p>Bindable LINQ is a community project to enable reactive controls to back easily onto LINQ queries</p></li>
+<li><p>Key API : AsBindable() - extension method on IEnumerable<T></p></li>
+</ul>
+
+
+<h3>SEC201: Do These Ten Things or Get Own3d - Steve Riley</h3>
+
+<h4>1. Use precise terminology</h4>
+
+<ul>
+<li><p>Vulnerability - The problem</p>
+
+<ul>
+<li><p>Code</p></li>
+<li><p>Configuration</p></li>
+<li><p>Circumvention - Security rules that are so draconian that they encourage people to actively try to get around it.</p></li>
+</ul>
+</li>
+<li><p>Threat - The person that carries out the attack</p>
+
+<ul>
+<li><p>External</p></li>
+<li><p>Internal</p></li>
+</ul>
+</li>
+<li><p>Exploit - the code that exploits the vulnerability</p></li>
+<li><p>Exposure - The cost of the attack being carried out.</p></li>
+<li><p>Risk</p></li>
+</ul>
+
+
+<h4>2. Accept that no one will like you</h4>
+
+<h4>3. Think like a bad guy</h4>
+
+<p>People will not like you for this either.</p>
+
+<h4>4. Understand the science</h4>
+
+<ul>
+<li><p>Identity is not Authentication.</p></li>
+<li><p>Encryption is not Integrity</p></li>
+<li><p>Inspection is not Intent - Can&#8217;t tell intent by looking at someone&#8217;s stuff.</p></li>
+<li><p>Secrecy is not Trust - just because you can make something a secret, doesn&#8217;t mean you can trust it.</p></li>
+<li><p>People are not Technology - All the technology in the world will not solve your technology problem.</p></li>
+<li><p>&#8220;Defence in depth&#8221; = &#8220;I am a parrot&#8221;</p></li>
+<li><p>Stupidity is not Malice</p></li>
+<li><p>Usability and Security are a tradeoff.</p></li>
+</ul>
+
+
+<h4>5. Protect your gear</h4>
+
+<ul>
+<li><p>Patch your stuff.</p></li>
+<li><p>Use the firewall.</p></li>
+<li><p>Don&#8217;t run as admin, or reduce number of admins.</p></li>
+<li><p>Install anti-malware, or scan fileshares.</p></li>
+<li><p>Don&#8217;t tweak.</p></li>
+<li><p>Rebuild, don&#8217;t disinfect.</p></li>
+</ul>
+
+
+<h4>6. Swallow your pride</h4>
+
+<ul>
+<li>Read up
+
+<ul>
+<li><p>Microsoft</p></li>
+<li><p><a href="http://www.sans.org">www.sans.org</a></p></li>
+<li><p><a href="http://www.securityfocus.com">www.securityfocus.com</a></p></li>
+<li><p><a href="http://searchsecurity.techtarget.com">http://searchsecurity.techtarget.com</a></p></li>
+</ul>
+</li>
+</ul>
+
+
+<h4>7. Reconsidering the laws</h4>
+
+<ul>
+<li><p>Law 1: If a bad guy can persuade you to run his program on your computer, it is not yours anymore.</p></li>
+<li><p>Law 2: If a bad guy can alter the operating system on your computer, it&#8217;s not yours anymore.</p></li>
+<li><p>Law 3: If a bad guy has unrestricted physical access to your computer, it&#8217;s not your computer anymore.</p></li>
+<li><p>Law 4: If you allow a bad guy to upload programs to your website, it&#8217;s not your website anymore.</p></li>
+<li><p>Law 5: Weak passwords trump strong security.</p></li>
+<li><p>Law 6: A computer is only as secure as the administrator is trustworthy.</p></li>
+<li><p>Law 7: Encrypted data is only as secure as the decryption key.</p></li>
+<li><p>Law 8: An out of date is <strike>only marginally better</strike> worse than no virus scanner at all.</p></li>
+<li><p>Law 9: Absolute anonymity isn&#8217;t practical, in real life or on the web.</p></li>
+<li><p>Law 10: Technology is not a panacea.</p></li>
+</ul>
+
+
+<h4>8. Classify, and classify again.</h4>
+
+<ul>
+<li><p>Access</p>
+
+<ul>
+<li>Principle of least privilege - others and yourself. If this principle interferes with your business process and is part of the OS, email Steve.</li>
+</ul>
+</li>
+<li><p>Data</p>
+
+<ul>
+<li>Confidentiality, retention, recovery.</li>
+</ul>
+</li>
+<li><p>Trust</p>
+
+<ul>
+<li>Functions, directions.</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>9. Don&#8217;t let your guard down.</h4>
+
+<ul>
+<li><p>People are always trying to sell you silver bullets/snake oil.</p></li>
+<li><p>Trustworthy people will discuss the downsides of their software</p></li>
+</ul>
+
+
+<h4>10. Protection, not restriction.</h4>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TechEd 08 - Day 2]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/09/02/teched-08-day-2/"/>
+    <updated>2008-09-02T07:00:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/09/02/teched-08-day-2</id>
+    <content type="html"><![CDATA[<h3>ARC202: I am not an Architect, I am an architect - Dr. Neil Roodyn</h3>
+
+<ul>
+<li><p>Why do most projects fail?</p>
+
+<ul>
+<li><p>There are risks in developing software - laws, quality, misunderstood business needs, etc.</p></li>
+<li><p>Unhappy customers.</p></li>
+</ul>
+</li>
+<li><p>History</p>
+
+<ul>
+<li><p>Pioneering era - early computing. Software Development Process: Chaotic.</p></li>
+<li><p>Stabilizing era - First demand for programmers,structure comes to development. SDP: Predictability. Based on engineering discipline.</p></li>
+<li><p>Micro era - Drop in price of computing, more customer expectations.</p></li>
+<li><p>Internet era - mid 90&#8217;s till present. Interconnectivity, change in pace of development. Customer expectations have outpaced developer abilities. SDP: Adaptive.</p></li>
+</ul>
+</li>
+<li><p>Predictability might be impossible in a creative field.</p></li>
+<li><p>Requirements change in every project. &#8220;Change is Inevitable&#8221;.</p></li>
+<li><p>Software needs to move away from the separation of architect and developer.</p></li>
+<li><p>The majority of the cost of a system is usually the software development, and the major component of that is personal costs.</p></li>
+<li><p>Craftsmanship is a different approach to software development.</p>
+
+<ul>
+<li><p>Needs dedication - constant learning.</p></li>
+<li><p>Duplication of software is low cost - this makes it more difficult to get revenue from your work.</p></li>
+<li><p>Mentoring - Share experiences and knowledge.</p></li>
+<li><p>Taking time out to think about things in the background - some of the best ideas are discovered while not actively thinking about the problem.</p></li>
+<li><p>Accomplishment.</p></li>
+<li><p>Need to set up processes so that developers can learn from their own and others mistakes.</p></li>
+</ul>
+</li>
+<li><p>Why promote the best coders into positions where they don&#8217;t write code?</p></li>
+<li><p>Customers have a lot of choices - need to educate them on the tradeoff between cost and quality.</p></li>
+<li><p>Happy developers create better quality code.</p></li>
+<li><p>High quality software is possible - needs good supporting tools.</p></li>
+<li><p>People over process.</p></li>
+</ul>
+
+
+<h3>SEC314: Secure Development Patterns - How not to screw yourself during development - Corneliu L. Tusnea</h3>
+
+<ul>
+<li><p>Distributed authentication systems work by verifying security tokens are valid, rather than verifying usernames and passwords on each service. The more times the password verification code has to be repeated the more chances there are for data leakage or failure.</p></li>
+<li><p>Security should not be part of the code, it should be part of some external configuration - what user can use what services.</p>
+
+<ul>
+<li>You still need to set attributes in code to determine what services to manage with security. This provides a better security model as there is only one place for look for specific security policy, and the code only needs to be referred to determine if it can be configured with security policy.</li>
+</ul>
+</li>
+<li><p>XSS protection is difficult to do yourself - the Microsoft security guys have written a library called AntiXSS, use that. HtmlEncode does not protect against XSS attacks. You should create a basic replacement for Label and Literal that AntiXSS encodes the text it displays and set up a TagMap to these new tags.</p></li>
+<li><p>Validators are a source of duplication in a system.</p></li>
+<li><p>Exceptions can leak information if used naively. A better method is to attach an enum to your exceptions, and to show a message based off of that. This gives you an easy way of internationalising error messages too.</p></li>
+</ul>
+
+
+<h3>WEB305: Pumping Iron: Dynamic Languages on .Net - Harry Pierson</h3>
+
+<ul>
+<li><p>Tradeoff between Type Safety and Flexibility</p>
+
+<ul>
+<li>Rails ActiveRecord example - AR adds the column names of a table as properties on the model class at run time.</li>
+</ul>
+</li>
+<li><p>Real products are being shipped on IronPython - ResolverOne</p></li>
+<li><p>Dynamic languages are very productive - good for initial work on greenfield projects.</p></li>
+<li><p>Dynamic languages are not as fast as Static languages, so optimise by replacing slow parts of Iron(Ruby/Python) with C#. This is easy in the Iron* languages.</p></li>
+<li><p>Dynamic Languages are easy to teach and learn.</p>
+
+<ul>
+<li>Short on Ceremony - You don&#8217;t have to add extra stuff like package management or class creation to python if you don&#8217;t want to.</li>
+</ul>
+</li>
+<li><p>Formatting and whitespace matters. All Python code looks the same, so it is easy to start working with someone else&#8217;s code.</p></li>
+<li><p>Dynamic languages are powerful.</p>
+
+<ul>
+<li><p>AOP is easy in Python - it is possible to pass functions around as they are first level citizens, or you can use decorators to wrap functions.</p></li>
+<li><p>You can create new types at runtime - example given was an XML to Python loader, which created Python objects from any given XML document.</p></li>
+</ul>
+</li>
+<li><p>Iron* languages are first class .Net citizens.</p>
+
+<ul>
+<li>Interop with other .Net code. Easy to use C# or VB.Net code from Iron<em> languages, but it is harder to go the other way. Standard .Net assemblies just work in Iron</em>.</li>
+</ul>
+</li>
+<li><p>Iron* languages are embeddable by using the DLR.</p></li>
+<li><p>Microsoft are working on integration with Visual Studio currently, due in 2009.</p></li>
+<li><p>IronRuby and IronPython are both true Open Source.</p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Code Camp 2008]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/09/01/code-camp-2008/"/>
+    <updated>2008-09-01T07:00:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/09/01/code-camp-2008</id>
+    <content type="html"><![CDATA[<h3>Thinking in WPF - Ivan Towlson</h3>
+
+<p>This talk was fantastic. My previous attempts at learning WPF failed miserably, but Ivan&#8217;s talk showed me that I was just thinking about programming a UI in WPF wrong. The programming model is very different to WinForms, and if you try to program in the old WinForms way you will have significant problems.</p>
+
+<h3>Test Driven Development and Dependency Injection - Robert Fonseca-Ensor</h3>
+
+<p>This was another excellent presentation. Robert covered the standard TDD stuff, but did a great job of explaining DI, as well as showing a short (~20 line) DI container that you can copy paste into any project. This tied in really well with the other talks.</p>
+
+<h3>ASP.Net MVC - Owen Evans</h3>
+
+<p>Owen covered most of the regular ASP.Net MVC stuff, but went into a little more detail than the last presentation I saw on it. There was a good discussion at the end about the difference between the MVC model and the WPF model of synchronising data between the View and the Model. The outcome of this discussion was that they are both useful, but for different areas. The stateless nature of HTTP means that the MVC pattern makes a lot of sense for websites, where as the use of data binding makes sense in a rich client application.</p>
+
+<h3>ASP.Net Dynamic Data - Scott Hanselman</h3>
+
+<p>This talk was a complete surprise for me. I hadn&#8217;t heard anything about Dynamic Data before this, and was very impressed with it. The gist of it is around scaffolding Linq entities. It has a bunch of built in logic for creating basic CRUD websites quickly.</p>
+
+<p>The real surprise is the level of customisability - every single thing in this system is customisable. Every object is rendered by a template, but the automatic choices can all be overridden so if you don&#8217;t like that Category.Description renders with a TextArea, you can specify something else in code. The default templates are generated in your project, so you don&#8217;t like the default TextArea, you can change that template which changes the rendering for all of them.</p>
+
+<p>Also Scott mentioned that this functionality will be making its way into the ASP.Net MVC project - once this happens, I will be completely sold. This is the sort of thing that would make CRUD style web development so easy without sacrificing customisabilty. Great stuff.</p>
+
+<h3>Silverlight - Jonas Follesco</h3>
+
+<p>An entertaining talk on some of the crazier things you can do with Silverlight. They have added support for using JavaScript objects in the C# code behind the silverlight application, and C# object in the JavaScript in the browser. He also demo&#8217;d a Silverlight - Javascript - Flash application using a webcam, which was a good end to the day.</p>
+
+<p>He also covered Dependency Injection and TDD in silverlight.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TechEd 08 - Day 1]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/09/01/teched-08-day-1/"/>
+    <updated>2008-09-01T06:59:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/09/01/teched-08-day-1</id>
+    <content type="html"><![CDATA[<p>Figured I would write a little about each of the interesting sessions at TechEd, just as a note keeping exercise.</p>
+
+<h3>Keynote Speech</h3>
+
+<h4>National&#8217;s John Key and Labour&#8217;s David Cunliffe talk about digital strategy.</h4>
+
+<p>National&#8217;s strategy: $1.5B over 6 years to a single utility for fiber to the home.</p>
+
+<p>Labour&#8217;s strategy: $1B over 10 years to multiple providers.</p>
+
+<h4>Microsoft&#8217;s Amit &#8212;- talks about Software+Services</h4>
+
+<ul>
+<li><p>Local software extended with on demand computing services.</p></li>
+<li><p>Small pieces loosely joined. Interoperability and standards become important.</p></li>
+<li><p>Foster best of breed software and services.</p></li>
+<li><p>Connecting devices together.</p>
+
+<ul>
+<li><p>All devices seamlessly and securely integrate with each other.</p></li>
+<li><p>Simple management of devices, software, and data.</p></li>
+<li><p>Sharing of data between all of your devices.</p></li>
+</ul>
+</li>
+<li><p>Cloud computing, how do we split work between client and cloud.</p></li>
+<li><p>Connected Business</p>
+
+<ul>
+<li><p>Consistent UX across delivery and deployment options.</p></li>
+<li><p>Common architecture and data models across deployments.</p></li>
+<li><p>Flexibility and Adaptability in deployment.</p></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>WEB301: ASP.Net MVC - Should You Care? - Scott Hanselman</h3>
+
+<p>Very similar to Code Camp talk on ASP.Net MVC talk by Owen Evans. Scott talked mostly about the standard ASP.Net MVC features, but he is always entertaining to listen to so it was still worth watching.</p>
+
+<h3>ARC201: Moving Beyond Industrial Software - Harry Pierson</h3>
+
+<ul>
+<li><p>Architects are responsible for predicting and reacting to change.</p></li>
+<li><p>Current Day:</p>
+
+<ul>
+<li><p>Most IT departments are run like a factory. This is a bad model for creative work.</p></li>
+<li><p>Change is happening now - traditional business models are falling apart.</p></li>
+</ul>
+</li>
+<li><p>Recommendations</p>
+
+<ul>
+<li><p>Push control to the edge.</p>
+
+<ul>
+<li><p>Centralized models of control cause bottlenecks.</p></li>
+<li><p>Centralization as a technology no longer works.</p></li>
+<li><p>Centralization slows you down - prevents marketplace agility.</p></li>
+<li><p>&#8220;There is not one Microsoft anymore&#8221; - Steve Ballmer</p></li>
+<li><p>Loose coupling between departments. Still need some decision making power at the centre, but not much. Central control over the budget is a good level.</p></li>
+</ul>
+</li>
+<li><p>Know when to ignore standards.</p>
+
+<ul>
+<li><p>Choice between solving a business problem and adhering to a standard - solve the business problem!</p></li>
+<li><p>The cost to maintain standards is not zero.</p></li>
+<li><p>Adherence to standards costs as well.</p></li>
+<li><p>Efficiency through Standardisation only occurs in a factory style environment - This is not IT!</p></li>
+<li><p>What is the simplest thing that could work?</p></li>
+</ul>
+</li>
+<li><p>Empower users to solve their own problems.</p>
+
+<ul>
+<li><p>IT people will never understand the business. If your business idea relies on good communication between IT and business people, you will probably fail.</p></li>
+<li><p>Lack of marketplace within an enterprise means that there is no &#8220;natural selection&#8221; going on.</p></li>
+<li><p>Build infrastructure and tools, not solutions.</p></li>
+<li><p>Common, centralized infrastructure for business users to build their own solutions on. &#8220;If you want something done right, you&#8217;ve gotta do it yourself&#8221;</p></li>
+<li><p>Common infrastructure costs can be amortized across the entire organization.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>SEC306: Privacy - The Why, What, and How - Steve Riley</h3>
+
+<ul>
+<li><p>Data breaches in 3 1/2 Years: 227,120,380 in the US.</p></li>
+<li><p>It is practically impossible to have a private face-to-face conversation with today&#8217;s invasive technologies.</p></li>
+<li><p>Privacy: The right to be left alone.</p></li>
+<li><p>Privacy laws and fines for data breaches have not caught up with technology - it is possible to expose your entire customer bases private data, but it is cheaper too pay the fine than fix the problem.</p></li>
+</ul>
+
+
+<p>Steve&#8217;s session was more of a discussion. He went through a bunch of different scenarios, what was an acceptable levels of privacy invasion, what evil things it is possible to do with large amounts of user data. I don&#8217;t have much written down because I was too busy listening.</p>
+
+<h3>WEB302: ADO.Net Data Services - The zen of RESTfulness and the art of &#8220;Astoria&#8221; - Scott Hanselman</h3>
+
+<p>Astoria looks interesting - it is a framework for setting up REST web services from Entity Data Models. It looks pretty cool, you can then set up a service reference to this and use LINQ to query it. It really looks like Microsoft are setting all their stuff up to work with LINQ and enties now - very cool. The demo showed that you can use the same LINQ query on both a local database using LINQ to SQL, and by just changing the data context, you can query an Astoria web service.</p>
+
+<p>As a side note, Astoria web services are just regular XML (in fact they return Atom), so it is possible to write your own implementation of this. You can set the expected data type (again, standard REST), so you can get back JSON if you want. This is important, because it allows them to use AJAX to pull this data back, and use the entities in the javascript using the actual property names. The data context has a few extra things in it, like the ability to batch requests. Again, these work in a standard REST style.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[StringBuilder Performance Issues]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/05/29/stringbuilder-performance-issues/"/>
+    <updated>2008-05-29T06:54:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/05/29/stringbuilder-performance-issues</id>
+    <content type="html"><![CDATA[<p>We are working on a templating system, so as you can imagine we have to deal with the construction of massive strings of text. Conventional wisdom is to use a StringBuilder rather than a lot of String concatenation, but we wanted to test out the speed of StringBuilder to see if there were any issues that we may encounter. These might not be the best tests strictly speaking, but they show some interesting points that are worth thinking about. Here are our results:</p>
+
+<p><a href="http://lh3.ggpht.com/_TGyXpQbgdXc/SZ0C0dvobLI/AAAAAAAAABI/RSfIcqFGBZo/s1600-h/Profiler_first_run%5B5%5D.png"><img src="http://lh4.ggpht.com/_TGyXpQbgdXc/SZ0C1ErySBI/AAAAAAAAABY/Exv5SLnTIzs/Profiler_first_run_thumb%5B3%5D.png?imgmax=800" alt="Profiler_first_run" /></a></p>
+
+<p>The first run was just to get the string builder code in memory.</p>
+
+<p><a href="http://lh3.ggpht.com/_TGyXpQbgdXc/SZ0C18zK6hI/AAAAAAAAABc/vqQsXsVp3Vs/s1600-h/Profiler_second_run_first_result_set%5B5%5D.png"><img src="http://lh3.ggpht.com/_TGyXpQbgdXc/SZ0C2Yv462I/AAAAAAAAABg/BKRQs_TIol8/Profiler_second_run_first_result_set_thumb%5B3%5D.png?imgmax=800" alt="Profiler_second_run_first_result_set" /></a></p>
+
+<p>This is the same code as above, but hopefully the JIT has run over everything we are profiling so it should have less effect on our tests (if it has any at all in a debug build). Insert seems to be a touch faster but this could just be due to inaccuracies in the profiler though, as they are pretty small..</p>
+
+<p><a href="http://lh5.ggpht.com/_TGyXpQbgdXc/SZ0C3D7PnPI/AAAAAAAAABk/j8y7tHfChoU/s1600-h/Profiler_second_run_second_result_set%5B4%5D.png"><img src="http://lh4.ggpht.com/_TGyXpQbgdXc/SZ0C4OkKdtI/AAAAAAAAABo/fNfONyNz1Ok/Profiler_second_run_second_result_set_thumb%5B2%5D.png?imgmax=800" alt="Profiler_second_run_second_result_set" /></a></p>
+
+<p>Our last set of results. This time we took the ToString() call out of the loop and did it at the end. Look at the difference this makes to performance! Both Append and Insert perform nearly identically. The ToString() call itself is very quick, yet somehow it messes up the performance of Append and Insert drastically. Our application needs to periodically get the current state of the string builder, so we fall into the first category- where both Insert and Append perform terribly.</p>
+
+<table border="1">
+<tbody>
+<tr>
+<th>Test Scenario</th>
+<th>Time spent in loop (s)</th>
+</tr>
+<tr>
+<td>Append and ToString</td>
+<td style="text-align: right;">12.5000</td>
+</tr>
+<tr>
+<td>Insert and ToString</td>
+<td style="text-align: right;">12.2000</td>
+</tr>
+<tr>
+<td>Append and ToString with preallocation</td>
+<td style="text-align: right;">12.4000</td>
+</tr>
+<tr>
+<td>Insert and ToString with preallocation</td>
+<td style="text-align: right;">12.8000</td>
+</tr>
+<tr>
+<td>Append without ToString</td>
+<td style="text-align: right;">0.0092</td>
+</tr>
+<tr>
+<td>Insert without ToString</td>
+<td style="text-align: right;">0.0100</td>
+</tr>
+<tr>
+<td>Append without ToString with preallocation</td>
+<td style="text-align: right;">0.0083</td>
+</tr>
+<tr>
+<td>Insert without ToString with preallocation</td>
+<td style="text-align: right;">0.0103</td>
+</tr>
+</tbody>
+</table>
+
+
+<p></p>
+
+<p>Interesting results can come from performance profiling things - Why on earth does calling ToString() mess up the performance of StringBuilder, and is there any way around this?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UI Design, Unit Testing, and Related Pains]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/03/29/ui-design-unit-testing-and-related-pains/"/>
+    <updated>2008-03-29T06:49:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/03/29/ui-design-unit-testing-and-related-pains</id>
+    <content type="html"><![CDATA[<h3>Background</h3>
+
+<p>Currently I am working on merging two of the steps in the Workbench part of ArchAngel. The final two steps of the generation process used to be the actual generation of the files you wanted, and the analysis to see which files needed to be merged. This was two screens, one in which the user picked the groups of files to generate, and the other which showed conflict resolution. Only after all conflicts had been resolved could the newly generated and merged files be copied into the user&#8217;s project directory.</p>
+
+<h3>UI Changes</h3>
+
+<p>This wasn&#8217;t as easy as it could be. There is no reason why the user needs to go through an additional screen to choose the files - why not just put that on the screen with the analysis so they could choose which files they wanted to keep? So Gareth merged the two screens, shifting the file choosing part to the tree view with checkboxes, and showing the results of the analysis as an icon next to the file in the tree.</p>
+
+<h3>Process Changes</h3>
+
+<p>One thing Gareth wanted to do was generate the files in the background. I set up a process whereby the files would be generated on a background thread, and if the user changed any options in the project, the files would be regenerated. Hopefully most of the files would be generated by the time the user actually got to the final generate and merge screen. We also do the analysis on the same thread once the generation is done.</p>
+
+<h3>Unit Testing</h3>
+
+<p>This process is really the meat of the ArchAngel Workbench - the majority of the processing happens here. Thus I wanted to make sure that I wasn&#8217;t breaking anything by implementing this background processing, as I had to make a number of changes to make it thread-safe. So I embarked on a quest to make this part of the system as easy to unit test as possible.</p>
+
+<p>I started by completely removing any trace of GUI code from the generation code. This meant removing the background worker references, and replacing all of the code dealing with threading with a helper class I created. This class encapsulated progress reporting and task cancellation, so that we can mock these aspects during testing.</p>
+
+<p>Mocking is a major focus of this process - I want to be able to mock out as much of the system as possible in order to make the unit tests more focused. The thing with mocking/faking the major components in the system is that we can write these mocks/fakes once, and reuse them in all of our tests. This is better than relying on resetting the state of the major components - this is prone to failure if those components change in future. Also it is difficult to prevent behaviour that relies on the underlying environment, such as writing to files and reading from settings files.</p>
+
+<p>On Monday I will start working on creating some mocks for these components, and will add another post with my experiences of this.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Quick Update on Unit Testing]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing/"/>
+    <updated>2008-03-24T06:51:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing</id>
+    <content type="html"><![CDATA[<p>Just thought I would add one more blog post to the millions of others floating around the net about how great unit testing is. I&#8217;ve spent the last week or so designing and implementing a cleaner version of one of the major modules of ArchAngel, and I couldn&#8217;t have done it without the regression test suite I wrote. It picked up all of those tiny little bugs that you just look over, but will cause you massive grief later on because they exist in parts of the code that &#8220;should just work&#8221;.</p>
+
+<p>The number one lesson I&#8217;ve learned from this is to never assume anything works, even very simple things.</p>
+
+<p>I started reading Pragmatic Unit Testing in C# with NUnit (<a href="http://www.pragprog.com/titles/utc2/pragmatic-unit-testing-in-c-with-nunit-2nd-ed">http://www.pragprog.com/titles/utc2/pragmatic-unit-testing-in-c-with-nunit-2nd-ed</a>) a few days into the design phase, and although I was doing some unit testing it pushed me into implementing more and better tests. It is a really good introduction to both how to unit test, as well as what to test. I highly recommend it for anyone working in C#. They have a Java/JUnit one there too, but I haven&#8217;t read that one.</p>
+
+<p>In short: Unit testing saved my sanity this week.</p>
+]]></content>
+  </entry>
+  
+</feed>

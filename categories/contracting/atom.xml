@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Contracting | Jamie's Space]]></title>
+  <link href="http://www.jamiepenney.co.nz/categories/contracting/atom.xml" rel="self"/>
+  <link href="http://www.jamiepenney.co.nz/"/>
+  <updated>2013-04-14T03:49:49+00:00</updated>
+  <id>http://www.jamiepenney.co.nz/</id>
+  <author>
+    <name><![CDATA[Jamie Penney]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[New Monitor]]></title>
+    <link href="http://www.jamiepenney.co.nz/2009/07/13/new-monitor/"/>
+    <updated>2009-07-13T22:20:35+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2009/07/13/new-monitor</id>
+    <content type="html"><![CDATA[<p>Today I got a new 24" Samsung T240 for my office at home. I've been working from home a lot recently and have really been missing my dual monitor setup from work, even though it is only my laptop with an old 17" LCD. Two monitors definitely make a big difference to my productivity when coding. I already had a 22" Samsung 226BW, which now looks thoroughly inadequate next to the 24" as you can see from the photo below.</p>
+
+<p><img src="http://jamiepenney.co.nz/wp-content/uploads/2009/07/13072009079-1024x768.jpg" alt="My New Desk Arrangement" /></p>
+
+<p>Once I got used to the larger monitor I had a pretty productive day though. The T240 is a decent monitor for developing on, judging from one day's usage. Text is clear, and after a little tweaking the colour looked about right, enough for my purposes anyway. Not to mention it is a nice looking monitor. All in all, it was well worth the money I/the business spent on it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TechEd 08 - Day 1]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/09/01/teched-08-day-1/"/>
+    <updated>2008-09-01T06:59:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/09/01/teched-08-day-1</id>
+    <content type="html"><![CDATA[<p>Figured I would write a little about each of the interesting sessions at TechEd, just as a note keeping exercise.</p>
+
+<h3>Keynote Speech</h3>
+
+<h4>National's John Key and Labour's David Cunliffe talk about digital strategy.</h4>
+
+<p>National's strategy: $1.5B over 6 years to a single utility for fiber to the home.</p>
+
+<p>Labour's strategy: $1B over 10 years to multiple providers.</p>
+
+<h4>Microsoft's Amit ---- talks about Software+Services</h4>
+
+<ul>
+<li><p>Local software extended with on demand computing services.</p></li>
+<li><p>Small pieces loosely joined. Interoperability and standards become important.</p></li>
+<li><p>Foster best of breed software and services.</p></li>
+<li><p>Connecting devices together.</p>
+
+<ul>
+<li><p>All devices seamlessly and securely integrate with each other.</p></li>
+<li><p>Simple management of devices, software, and data.</p></li>
+<li><p>Sharing of data between all of your devices.</p></li>
+</ul>
+</li>
+<li><p>Cloud computing, how do we split work between client and cloud.</p></li>
+<li><p>Connected Business</p>
+
+<ul>
+<li><p>Consistent UX across delivery and deployment options.</p></li>
+<li><p>Common architecture and data models across deployments.</p></li>
+<li><p>Flexibility and Adaptability in deployment.</p></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>WEB301: ASP.Net MVC - Should You Care? - Scott Hanselman</h3>
+
+<p>Very similar to Code Camp talk on ASP.Net MVC talk by Owen Evans. Scott talked mostly about the standard ASP.Net MVC features, but he is always entertaining to listen to so it was still worth watching.</p>
+
+<h3>ARC201: Moving Beyond Industrial Software - Harry Pierson</h3>
+
+<ul>
+<li><p>Architects are responsible for predicting and reacting to change.</p></li>
+<li><p>Current Day:</p>
+
+<ul>
+<li><p>Most IT departments are run like a factory. This is a bad model for creative work.</p></li>
+<li><p>Change is happening now - traditional business models are falling apart.</p></li>
+</ul>
+</li>
+<li><p>Recommendations</p>
+
+<ul>
+<li><p>Push control to the edge.</p>
+
+<ul>
+<li><p>Centralized models of control cause bottlenecks.</p></li>
+<li><p>Centralization as a technology no longer works.</p></li>
+<li><p>Centralization slows you down - prevents marketplace agility.</p></li>
+<li><p>"There is not one Microsoft anymore" - Steve Ballmer</p></li>
+<li><p>Loose coupling between departments. Still need some decision making power at the centre, but not much. Central control over the budget is a good level.</p></li>
+</ul>
+</li>
+<li><p>Know when to ignore standards.</p>
+
+<ul>
+<li><p>Choice between solving a business problem and adhering to a standard - solve the business problem!</p></li>
+<li><p>The cost to maintain standards is not zero.</p></li>
+<li><p>Adherence to standards costs as well.</p></li>
+<li><p>Efficiency through Standardisation only occurs in a factory style environment - This is not IT!</p></li>
+<li><p>What is the simplest thing that could work?</p></li>
+</ul>
+</li>
+<li><p>Empower users to solve their own problems.</p>
+
+<ul>
+<li><p>IT people will never understand the business. If your business idea relies on good communication between IT and business people, you will probably fail.</p></li>
+<li><p>Lack of marketplace within an enterprise means that there is no "natural selection" going on.</p></li>
+<li><p>Build infrastructure and tools, not solutions.</p></li>
+<li><p>Common, centralized infrastructure for business users to build their own solutions on. "If you want something done right, you've gotta do it yourself"</p></li>
+<li><p>Common infrastructure costs can be amortized across the entire organization.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>SEC306: Privacy - The Why, What, and How - Steve Riley</h3>
+
+<ul>
+<li><p>Data breaches in 3 1/2 Years: 227,120,380 in the US.</p></li>
+<li><p>It is practically impossible to have a private face-to-face conversation with today's invasive technologies.</p></li>
+<li><p>Privacy: The right to be left alone.</p></li>
+<li><p>Privacy laws and fines for data breaches have not caught up with technology - it is possible to expose your entire customer bases private data, but it is cheaper too pay the fine than fix the problem.</p></li>
+</ul>
+
+
+<p>Steve's session was more of a discussion. He went through a bunch of different scenarios, what was an acceptable levels of privacy invasion, what evil things it is possible to do with large amounts of user data. I don't have much written down because I was too busy listening.</p>
+
+<h3>WEB302: ADO.Net Data Services - The zen of RESTfulness and the art of "Astoria" - Scott Hanselman</h3>
+
+<p>Astoria looks interesting - it is a framework for setting up REST web services from Entity Data Models. It looks pretty cool, you can then set up a service reference to this and use LINQ to query it. It really looks like Microsoft are setting all their stuff up to work with LINQ and enties now - very cool. The demo showed that you can use the same LINQ query on both a local database using LINQ to SQL, and by just changing the data context, you can query an Astoria web service.</p>
+
+<p>As a side note, Astoria web services are just regular XML (in fact they return Atom), so it is possible to write your own implementation of this. You can set the expected data type (again, standard REST), so you can get back JSON if you want. This is important, because it allows them to use AJAX to pull this data back, and use the entities in the javascript using the actual property names. The data context has a few extra things in it, like the ability to batch requests. Again, these work in a standard REST style.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[StringBuilder Performance Issues]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/05/29/stringbuilder-performance-issues/"/>
+    <updated>2008-05-29T06:54:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/05/29/stringbuilder-performance-issues</id>
+    <content type="html"><![CDATA[<p>We are working on a templating system, so as you can imagine we have to deal with the construction of massive strings of text. Conventional wisdom is to use a StringBuilder rather than a lot of String concatenation, but we wanted to test out the speed of StringBuilder to see if there were any issues that we may encounter. These might not be the best tests strictly speaking, but they show some interesting points that are worth thinking about. Here are our results:</p>
+
+<p><a href="http://lh3.ggpht.com/_TGyXpQbgdXc/SZ0C0dvobLI/AAAAAAAAABI/RSfIcqFGBZo/s1600-h/Profiler_first_run%5B5%5D.png"><img src="http://lh4.ggpht.com/_TGyXpQbgdXc/SZ0C1ErySBI/AAAAAAAAABY/Exv5SLnTIzs/Profiler_first_run_thumb%5B3%5D.png?imgmax=800" alt="Profiler_first_run" /></a></p>
+
+<p>The first run was just to get the string builder code in memory.</p>
+
+<p><a href="http://lh3.ggpht.com/_TGyXpQbgdXc/SZ0C18zK6hI/AAAAAAAAABc/vqQsXsVp3Vs/s1600-h/Profiler_second_run_first_result_set%5B5%5D.png"><img src="http://lh3.ggpht.com/_TGyXpQbgdXc/SZ0C2Yv462I/AAAAAAAAABg/BKRQs_TIol8/Profiler_second_run_first_result_set_thumb%5B3%5D.png?imgmax=800" alt="Profiler_second_run_first_result_set" /></a></p>
+
+<p>This is the same code as above, but hopefully the JIT has run over everything we are profiling so it should have less effect on our tests (if it has any at all in a debug build). Insert seems to be a touch faster but this could just be due to inaccuracies in the profiler though, as they are pretty small..</p>
+
+<p><a href="http://lh5.ggpht.com/_TGyXpQbgdXc/SZ0C3D7PnPI/AAAAAAAAABk/j8y7tHfChoU/s1600-h/Profiler_second_run_second_result_set%5B4%5D.png"><img src="http://lh4.ggpht.com/_TGyXpQbgdXc/SZ0C4OkKdtI/AAAAAAAAABo/fNfONyNz1Ok/Profiler_second_run_second_result_set_thumb%5B2%5D.png?imgmax=800" alt="Profiler_second_run_second_result_set" /></a></p>
+
+<p>Our last set of results. This time we took the ToString() call out of the loop and did it at the end. Look at the difference this makes to performance! Both Append and Insert perform nearly identically. The ToString() call itself is very quick, yet somehow it messes up the performance of Append and Insert drastically. Our application needs to periodically get the current state of the string builder, so we fall into the first category- where both Insert and Append perform terribly.</p>
+
+<table border="1">
+<tbody>
+<tr>
+<th>Test Scenario</th>
+<th>Time spent in loop (s)</th>
+</tr>
+<tr>
+<td>Append and ToString</td>
+<td style="text-align: right;">12.5000</td>
+</tr>
+<tr>
+<td>Insert and ToString</td>
+<td style="text-align: right;">12.2000</td>
+</tr>
+<tr>
+<td>Append and ToString with preallocation</td>
+<td style="text-align: right;">12.4000</td>
+</tr>
+<tr>
+<td>Insert and ToString with preallocation</td>
+<td style="text-align: right;">12.8000</td>
+</tr>
+<tr>
+<td>Append without ToString</td>
+<td style="text-align: right;">0.0092</td>
+</tr>
+<tr>
+<td>Insert without ToString</td>
+<td style="text-align: right;">0.0100</td>
+</tr>
+<tr>
+<td>Append without ToString with preallocation</td>
+<td style="text-align: right;">0.0083</td>
+</tr>
+<tr>
+<td>Insert without ToString with preallocation</td>
+<td style="text-align: right;">0.0103</td>
+</tr>
+</tbody>
+</table>
+
+
+<p></p>
+
+<p>Interesting results can come from performance profiling things - Why on earth does calling ToString() mess up the performance of StringBuilder, and is there any way around this?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UI Design, Unit Testing, and Related Pains]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/03/29/ui-design-unit-testing-and-related-pains/"/>
+    <updated>2008-03-29T06:49:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/03/29/ui-design-unit-testing-and-related-pains</id>
+    <content type="html"><![CDATA[<h3>Background</h3>
+
+<p>Currently I am working on merging two of the steps in the Workbench part of ArchAngel. The final two steps of the generation process used to be the actual generation of the files you wanted, and the analysis to see which files needed to be merged. This was two screens, one in which the user picked the groups of files to generate, and the other which showed conflict resolution. Only after all conflicts had been resolved could the newly generated and merged files be copied into the user's project directory.</p>
+
+<h3>UI Changes</h3>
+
+<p>This wasn't as easy as it could be. There is no reason why the user needs to go through an additional screen to choose the files - why not just put that on the screen with the analysis so they could choose which files they wanted to keep? So Gareth merged the two screens, shifting the file choosing part to the tree view with checkboxes, and showing the results of the analysis as an icon next to the file in the tree.</p>
+
+<h3>Process Changes</h3>
+
+<p>One thing Gareth wanted to do was generate the files in the background. I set up a process whereby the files would be generated on a background thread, and if the user changed any options in the project, the files would be regenerated. Hopefully most of the files would be generated by the time the user actually got to the final generate and merge screen. We also do the analysis on the same thread once the generation is done.</p>
+
+<h3>Unit Testing</h3>
+
+<p>This process is really the meat of the ArchAngel Workbench - the majority of the processing happens here. Thus I wanted to make sure that I wasn't breaking anything by implementing this background processing, as I had to make a number of changes to make it thread-safe. So I embarked on a quest to make this part of the system as easy to unit test as possible.</p>
+
+<p>I started by completely removing any trace of GUI code from the generation code. This meant removing the background worker references, and replacing all of the code dealing with threading with a helper class I created. This class encapsulated progress reporting and task cancellation, so that we can mock these aspects during testing.</p>
+
+<p>Mocking is a major focus of this process - I want to be able to mock out as much of the system as possible in order to make the unit tests more focused. The thing with mocking/faking the major components in the system is that we can write these mocks/fakes once, and reuse them in all of our tests. This is better than relying on resetting the state of the major components - this is prone to failure if those components change in future. Also it is difficult to prevent behaviour that relies on the underlying environment, such as writing to files and reading from settings files.</p>
+
+<p>On Monday I will start working on creating some mocks for these components, and will add another post with my experiences of this.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Quick Update on Unit Testing]]></title>
+    <link href="http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing/"/>
+    <updated>2008-03-24T06:51:00+00:00</updated>
+    <id>http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing</id>
+    <content type="html"><![CDATA[<p>Just thought I would add one more blog post to the millions of others floating around the net about how great unit testing is. I've spent the last week or so designing and implementing a cleaner version of one of the major modules of ArchAngel, and I couldn't have done it without the regression test suite I wrote. It picked up all of those tiny little bugs that you just look over, but will cause you massive grief later on because they exist in parts of the code that "should just work".</p>
+
+<p>The number one lesson I've learned from this is to never assume anything works, even very simple things.</p>
+
+<p>I started reading Pragmatic Unit Testing in C# with NUnit (<a href="http://www.pragprog.com/titles/utc2/pragmatic-unit-testing-in-c-with-nunit-2nd-ed">http://www.pragprog.com/titles/utc2/pragmatic-unit-testing-in-c-with-nunit-2nd-ed</a>) a few days into the design phase, and although I was doing some unit testing it pushed me into implementing more and better tests. It is a really good introduction to both how to unit test, as well as what to test. I highly recommend it for anyone working in C#. They have a Java/JUnit one there too, but I haven't read that one.</p>
+
+<p>In short: Unit testing saved my sanity this week.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,611 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Jamie's Space</title>
+  <meta name="author" content="Jamie Penney">
+
+  
+  <meta name="description" content="I used to use Heroku a few years back whenever I needed a little bit of Ruby on Rails hosting, but then I started needing background workers (which &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.jamiepenney.co.nz">
+  <link href="/favicon.ico" rel="icon">
+  
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jamie's Space" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1>Jamie's Space</h1>
+  
+    <h2><a href="/">JP</a></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation">
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.jamiepenney.co.nz" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/10/03/getting-the-most-out-of-herokus-freebies/">Getting the Most Out of Heroku&#8217;s Freebies</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-03T13:05:10+00:00" pubdate data-updated="true">3<span>rd</span> of October 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I used to use <a href="http://www.heroku.com">Heroku</a> a few years back whenever I needed a little bit of Ruby on Rails hosting, but then I started needing background workers (which you can&#8217;t get for free) and larger databases so I shifted to self-hosting. I already had a Rimuhosting VPS, so it didn&#8217;t make sense to spend money when I didn&#8217;t need to.</p>
+
+<p>I&#8217;ve gotten sick of having to write cron jobs and organise monitoring and all that sort of busy work for what are pretty basic sites, so I decided to have another shot at using Heroku.</p>
+
+<p>Turns out my current side project (a place my family and I can record and share our weight loss goals) fits within the free tier for everything except for the email notification jobs. Drat. Luckily I can minimise the cost of this by using a gem called <a href="https://github.com/meskyanichi/hirefire">HireFire</a>. I will only need maybe a few minutes of worker time per month, and this gem will make sure that workers are spun up and down as needed so I don&#8217;t waste any money I don&#8217;t need to.</p>
+
+<p>On top of that, there are a number of free <a href="https://addons.heroku.com/">Heroku Addons</a> that can keep everything speedy on a low use site. The <a href="https://addons.heroku.com/memcache">Memcache</a> addon has a 5MB free option that you can hook into Rack::Cache and Rails for faster caching. If you are on a small site you will still get a bit of extra speed out of that.</p>
+
+<p>This next trick is a bit cheeky, but it kinda fits with my monitoring needs any way. The <a href="https://addons.heroku.com/newrelic">New Relic</a> addon offers uptime monitoring (as well as short term site performance stats), which it gives you by pinging your site on a scheduled basis. This has the side effect of keeping your app running - Heroku will shut down a free site that hasn&#8217;t been hit in a while. Still not sure if I&#8217;m ok with this or not&#8230;</p>
+
+<p>There is one more thing you might overlook - Gzip compression of static assets. Heroku&#8217;s Cedar stack serves requests directly (see the <a href="https://devcenter.heroku.com/articles/http-routing">HTTP Routing documentation</a>)to the application stack, so you don&#8217;t get HTTP caching or gzip compression for free. Your app needs to handle these itself, but this is relatively easy. You need two pieces of Rack middleware: Rack::Cache and Rack::Deflater.</p>
+
+<p>For Rack::Cache you will need to add the Memcache addon to your app in Heroku, install the <a href="https://github.com/mperham/dalli">dalli</a> gem and setup the Rack::Cache middleware to use it by adding this to your <code>config/environment/production.rb</code> file:</p>
+
+<p><code>config.middleware.use Rack::Cache,
+:metastore =&gt; "memcached://#{ENV['MEMCACHE_SERVERS']}",
+:entitystore =&gt; "memcached://#{ENV['MEMCACHE_SERVERS']}"
+</code>
+While you are there, set the cache store to use Dalli as well with <code>config.cache_store = :dalli_store</code></p>
+
+<p>Using Rack::Deflater is easy as pie. In <code>config.ru</code> add the following right above your <code>run MyApp::Application</code> line:
+<code>
+use Rack::Deflater
+</code>
+In theory you shouldn&#8217;t need to do this. Rails 3.1 added Rack::Deflater by default, but the Cedar stack on Heroku <a href="http://stackoverflow.com/questions/7824570/heroku-conflict-between-gzipping-assets-and-precompiling-assets">doesn&#8217;t seem to do it</a>. An unfortunate side effect of adding Deflater this way is it will gzip everything, including images. I&#8217;m still thinking of a way to get around this, probably with my own middleware wrapper around Deflater.</p>
+
+<p>That&#8217;s all I&#8217;ve done so far and things are pretty snappy. If you have any other tips for making the most out of Heroku, let me know in the comments.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/09/27/getting-simplecov-and-spork-to-play-together/">Getting SimpleCov and Spork to Play Together</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-27T17:12:17+00:00" pubdate data-updated="true">27<span>th</span> of September 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I have been using <a href="https://github.com/colszowka/simplecov">SimpleCov</a> to measure the code coverage of my specifications, and it has been excellent. I would recommend it, if only for how easy it was to get it working with RSpec.</p>
+
+<p>I have run into one problem though - running it under <a href="https://github.com/timcharper/spork">Spork</a> generates no results! As far as I can tell, this is a problem with the way Spork caches your application files. SimpleCov uses the Ruby 1.9 built in profiling features, and either 1.9 or Spork need the files under inspection to be loaded after the profiling has started. Unfortunately your application files aren&#8217;t reloaded when you are using Spork, that&#8217;s kind of the point!</p>
+
+<p>Some people seem to be able to get away with merely turning off application file caching in <code>config/environments/test.rb</code>, but that didn&#8217;t work for me. Instead, I have come up with a different solution: Only turn on code coverage reporting when I run RSpec outside of Spork. At the top of <code>spec/spec_helper.rb</code> I have the following block:</p>
+
+<pre><code>if(ENV["RUN_COVERAGE"])
+  require 'simplecov'
+  SimpleCov.start 'rails' do
+    add_filter "/spec/"
+  end
+  puts "Running coverage tool\n"
+end
+</code></pre>
+
+<p>That way I can run <code>RUN_COVERAGE=true rspec spec/</code> in the root of my application directory, and RSpec will run with SimpleCov enabled. As an added bonus, the code coverage metrics aren&#8217;t running on every test run, so my tests are faster!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/09/23/rails-3-form-builder-for-twitter-bootstrap-form-elements/">Rails 3 Form Builder for Twitter Bootstrap Form Elements</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-23T17:41:42+00:00" pubdate data-updated="true">23<span>rd</span> of September 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>Edit: I have updated this for Bootstrap 2. See the links at the bottom of the page for both versions.</strong></p>
+
+<p>I have been working on a website in my spare time to help me organise my life a bit better, and one of the things that always trips me up with these kinds of projects is the visual style. For a while I had a basic fixed width style I used, but it didn&#8217;t really fit properly with what I wanted to build. A little while after I had started, Twitter released <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, a nice looking CSS framework. I decided to have a go at using it on my site (in a separate git branch of course) and it ended up only taking me less than an hour to get it all up and looks alright.</p>
+
+<p>One thing that bothered me though was the repetition in my forms - the format for showing labels that line up nicely next to the form elements was the same across all input types, and so was the error handling. This got me thinking: why should I retype all of this when the Rails FormBuilder class is already doing half the work? Surely I could just override some of the methods to make this work?</p>
+
+<p>I needed to learn more about Ruby metaprogramming to get it to work - I still wanted the core functionality of the default rails FormBuilder, just with some extra DOM nodes wrapped around it. Ruby lets you redefine methods at runtime, but also allows you to alias the old methods so you can refer to them inside your new version of the method. So I ended up writing a method that does the Bootstrap boilerplate DOM wrapper creation and calls the original method to generate the input element itself.</p>
+
+<p>I still haven&#8217;t overridden all of the FormBuilder methods because I need to actually test them (and I don&#8217;t have a use for them yet), but the basics are here in this Gist: <a href="https://gist.github.com/1236567">https://gist.github.com/1236567</a>. The methods I have overridden are in basic_helpers, the ones that output multiple inputs are in multipart_helpers. The great thing is I have only had to add method names to those two arrays as needed - none of the input types have needed special casing. This might not be the case for all of them, but one can only hope. If you do find this useful, or want to add and test some more of the helpers, please fork my Gist and leave me a comment.</p>
+
+<p><strong>Edit:</strong> Here are links to both the v1 and v2 form builders:</p>
+
+<p>Version 1 form builder:
+<a href="https://gist.github.com/1236567">https://gist.github.com/1236567</a>
+Version 2 form builder:
+<a href="https://gist.github.com/1829710">https://gist.github.com/1829710</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/09/23/testing-content_for-in-rails-3-x-helpers-with-rspec/">Testing Content_for in Rails 3.x Helpers With RSpec</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-23T17:37:43+00:00" pubdate data-updated="true">23<span>rd</span> of September 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>After having a quick look around the net (and not finding anything up to date and useful) I came up with the following basic test structure for testing my ApplicationHelper methods that served up content_for things like page titles, javascript includes, etc:</p>
+
+<pre><code>require 'spec_helper'
+
+describe ApplicationHelper do
+  describe "title" do
+    it "should call content_for(:title) with the title passed" do
+      helper.title("title stuff")
+      helper.content_for(:title).should == "title stuff"
+    end
+  end
+end
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/03/24/dependency-viewer/">Dependency Viewer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-24T18:07:35+00:00" pubdate data-updated="true">24<span>th</span> of March 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>A while back I posted a quick app I wrote to display dependencies between visual studio projects using GraphViz (<a href="http://jamiepenney.co.nz/2009/02/10/viewing-dependencies-between-projects-in-visual-studio/">here</a>). I&#8217;ve done a bit more work on it since then, cleaning up the project and adding support for custom processing of the graph elements before they are rendered using extensions. I&#8217;ve also put the project on GitHub for ease of updating. You can access that here: <a href="http://github.com/jamiepenney/VS-Dependency-Viewer">http://github.com/jamiepenney/VS-Dependency-Viewer</a></p>
+
+<p>I&#8217;m going to talk about how the extension mechanism works. It uses the Managed Extension Framework (MEF), which you can read about here: <a href="http://www.codeplex.com/MEF">http://www.codeplex.com/MEF</a>. You don&#8217;t need to know a lot about MEF to write an extension - in fact you can get away without knowing anything apart from how to download it and which attribute to use on your extension class.</p>
+
+<p>To create a custom graph processor, you&#8217;ll need to create a new Class Library project in Visual Studio. This project needs to reference Quickgraph.Graphviz.dll, System.ComponentModel.Composition, and DependencyViewer.Common.dll. The first two you can get from the lib directory in the Dependency Viewer project, and the Common dll you can get by building the DependencyViewer.Common project. Once you&#8217;ve got your project up and running, create a new class that implements DependencyViewer.Common.Interfaces.IGraphProcessor.</p>
+
+<p>The IGraphProcessor interface is pretty basic so far. These are the important methods:</p>
+
+<ul>
+<li><p>PreProcessGraph</p>
+
+<ul>
+<li>This method lets you change formatting options on the graph before the other graph elements are processed. You could use this to set the size, background colour, etc.</li>
+</ul>
+</li>
+<li><p>ProcessEdge</p>
+
+<ul>
+<li>This method lets you change formatting options on a dependency connection after the defaults have been set (there aren&#8217;t any defaults yet though).</li>
+</ul>
+</li>
+<li><p>ProcessVertex</p>
+
+<ul>
+<li>This method lets you change formatting options on a project node after the defaults have been set. By default the Name is set to the name of the project and the shape is set to Ellipse.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>You can have blank implementations of any methods you don&#8217;t need.</p>
+
+<p>To get the main application to find your custom graph  processor, you just have to register it as an implementation of  IGraphProcessor by adding the Export attribute to your implementation.  So in this case, you&#8217;d put <code>[Export(typeof(IGraphProcessor))]</code> on your  class.</p>
+
+<p>Once you&#8217;ve done that, build your project, copy the dll into the directory where you are running the main application, and then the magic happens. MEF will automatically pick up your implementation when you next render your solution.</p>
+
+<p>There is an example implementation in the Dependency Viewer project called TestProjectProcessor. It finds non unit testing projects that reference NHibernate and colours them a different colour, so that you can see what projects refer to your data projects. I got the idea from Melle Koning&#8217;s <a href="http://www.mellekoning.nl/index.php/2010/03/11/project-references-in-ddd">blog post</a> on the subject here.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2009/12/12/nhibernate-and-the-repository-pattern/">NHibernate and the Repository Pattern</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-12T09:43:43+00:00" pubdate data-updated="true">12<span>th</span> of December 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;ve been writing a small time tracker web application to teach myself <a href="http://www.asp.net/mvc">ASP.Net MVC</a>, and am using NHibernate as the ORM. I&#8217;m trying to use best practises while building this app, and one issue I was trying to deal with was whether to build a layer over the top of NHibernate. My first set of controller actions used NHibernate directly, with a dependency injected ISessionFactory. This was fine for simple queries (like get Task with id 1) but it meant more and more of my model concerns were leaking into my Controllers. I had thought that NHibernate provided enough of an abstraction over my model for this to not matter, but I was quite wrong.</p>
+
+<p>Remembering I had seen some argument over whether using a generic repository was a good idea or not, I started searching around and found quite a few blogs saying it was a bad idea. They made sense, and one blog had a <a href="http://www.noctovis.net/blog/index.php/2009/01/22/my-thoughts-about-irepository/">great solution</a>: Create a Repository&lt;T, U> abstract class for common CRUD style operations, inherit your specific Repository from that, and only expose meaningful methods in your interface to client code. The benefits of this approach are many - your client code can only see methods that are applicable to each model class, you don&#8217;t have to duplicate your common CRUD operations for each model class, and it is easy as pie to unit test.</p>
+
+<p>This last point is the one worth mentioning in my books. The great thing about separation of concerns is it should make things easier to pull apart for unit testing. Because my Repository methods have meaningful names, and are pretty fine grained, my mocking setup looks almost readable. It is immediately obvious from reading my tests that TaskController.List(5) should call ITaskRepository.GetLatestTasks(5). Not only that, but most of the Controller actions have been reduced to &#8220;Get this from Repository, return to View&#8221; or &#8220;Save this thing to the Repository&#8221;. They are small, obvious methods, and that makes them easier to test, and easier to maintain.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2009/09/14/windows-7-shortcut-keys/">Windows 7 Shortcut Keys</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-09-14T12:19:29+00:00" pubdate data-updated="true">14<span>th</span> of September 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I found a great list of keyboard shortcuts for Windows 7 today <a href="http://www.mydigitallife.info/2009/07/31/windows-7-keyboard-shortcuts-accelerator-keys-or-hotkeys-full-listing/">here</a>. The best part of this list were the keys for manipulating windows - Windows + Left Arrow will dock the window to the left hand side of the screen, much like if you drag the window to the side of the screen. The right arrow also works like this.</p>
+
+<p>If you have multiple monitors, using the mouse it doesn&#8217;t let you dock to the side connected to the other screen. So you can only dock to the far left and far right with the mouse. Not so with the keyboard. Each time you hit the keyboard combo, it will move it to the next dock position in that direction. That means you can have windows docked all over your extended desktop, like so:</p>
+
+<p><a href="http://jamiepenney.co.nz/wp-content/uploads/2009/09/desktop.png"><img src="http://jamiepenney.co.nz/wp-content/uploads/2009/09/desktop-300x106.png" alt="Desktop" /></a></p>
+
+<p>I&#8217;ve got two windows on each screen (as you can see, the right hand screen has the task bar, so you should be able to see where the screens split).</p>
+
+<p>This is pretty useful at home. Having huge screens is great, being able to have 4 docked windows without fiddling around with the mouse is fantastic.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2009/08/08/fun-with-the-symbian-emulator/">Fun With the Symbian Emulator</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-08-08T12:52:16+00:00" pubdate data-updated="true">8<span>th</span> of August 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The other night I stumbled on the PyS60 project, an open source port of the python runtime to Symbian S60 based phones. I own a Nokia N95, and I got kind of excited about this because I would like to mess around with development for it but can&#8217;t bring myself to work with C++ in my spare time.</p>
+
+<p>I thought it would be pretty easy to develop for as Python is interpreted, I thought I could just edit text files on the phone and run them to test them out. Turns out you can&#8217;t do that (not easily anyway), you need to package them on your computer, then upload the package to the phone, then install it, then run it. That killed that idea.</p>
+
+<p>I looked at the Symbian emulator, and the PyS60 team have a mod for it that installs the python runtime so you can just run script files on the emulated phone. &#8220;This is great!&#8221; I think, before actually trying it.</p>
+
+<p>For starters, the python runtime doesn&#8217;t work in the emulator when the emulator is running on Windows 7 x64 - damn. I have a VPC image with Windows XP on it though, so I fire that up, install everything, then try run it. The emulator crashes after about 15 seconds of loading.</p>
+
+<p>After browsing the Nokia forums for a while, I find out the problem. VPC is actually connecting to the virtual machine over RDP, and so the audio drivers are the RDP Remote Audio drivers.</p>
+
+<p>What do audio drivers have to do with a phone emulator I hear you ask? Good question, but it is one the Nokia forum dwellers have no answer for. Many people have complained that the Symbian Emulator does not work when connecting to the machine hosting it via RDP. There are other issues with particular sound card drivers or applications also causing it to crash. This is a prime example of bad error handling. Why, if the audio part of the emulator cannot work with some drivers, does it crash instead of continuing without audio?</p>
+
+<p>So that brought down my plans for making<a href="http://www.wired.com/gadgetlab/2008/12/iphone-fart-app/"> millions of dollars from fart applications</a> for Symbian based phones.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2009/07/20/strange-visual-studio-lockup-after-debugging/">Strange Visual Studio Lockup After Debugging</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-07-20T23:03:51+00:00" pubdate data-updated="true">20<span>th</span> of July 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I had been having an issue with VS 2008 on Windows 7 x64 today. After debugging an application the whole IDE would lock up, minimise itself, then bring itself back to the foreground. This was pretty disruptive and I was getting quite irritated with it, but I could not find any mention of it through Google.</p>
+
+<p>I did happen to stumble upon a StackOverflow question (<a href="http://stackoverflow.com/questions/126472/how-to-stop-right-click-dead-locking-visual-studio-2008/344323#344323">here</a>) where a different problem was outlined, however this answer reminded me of an issue Scott Hanselman had with an app he was doing a demo with, so I thought I would give it the fix a shot. Strangely enough, I think it has fixed it, although I am not sure why (it seems unrelated). Anyway, here is the fix, just in case anyone else has a similar problem:</p>
+
+<p><strong>Fix:</strong>
+Disable checking of Publisher&#8217;s Certificate Revocation</p>
+
+<ol>
+<li><p>Go to Internet Options in Internet Explorer or Control Panel</p></li>
+<li><p>Then go the Security Tab, scroll towards the bottom</p></li>
+<li><p>Uncheck the &#8216;Check for Publisher&#8217;s Certificate Revocation&#8217;  checkbox</p></li>
+<li><p>Click OK.</p></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2009/07/13/new-monitor/">New Monitor</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-07-13T22:20:35+00:00" pubdate data-updated="true">13<span>th</span> of July 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today I got a new 24&#8221; Samsung T240 for my office at home. I&#8217;ve been working from home a lot recently and have really been missing my dual monitor setup from work, even though it is only my laptop with an old 17&#8221; LCD. Two monitors definitely make a big difference to my productivity when coding. I already had a 22&#8221; Samsung 226BW, which now looks thoroughly inadequate next to the 24&#8221; as you can see from the photo below.</p>
+
+<p><img src="http://jamiepenney.co.nz/wp-content/uploads/2009/07/13072009079-1024x768.jpg" alt="My New Desk Arrangement" /></p>
+
+<p>Once I got used to the larger monitor I had a pretty productive day though. The T240 is a decent monitor for developing on, judging from one day&#8217;s usage. Text is clear, and after a little tweaking the colour looked about right, enough for my purposes anyway. Not to mention it is a nice looking monitor. All in all, it was well worth the money I/the business spent on it.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/2/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Jamie Penney -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

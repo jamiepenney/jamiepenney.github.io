@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Quick Update on Unit Testing - Jamie's Space</title>
+  <meta name="author" content="Jamie Penney">
+
+  
+  <meta name="description" content="Just thought I would add one more blog post to the millions of others floating around the net about how great unit testing is. I&#8217;ve spent the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing">
+  <link href="/favicon.ico" rel="icon">
+  
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jamie's Space" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1>Jamie's Space</h1>
+  
+    <h2><a href="/">JP</a></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation">
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.jamiepenney.co.nz" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Quick Update on Unit Testing</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-03-24T06:51:00+00:00" pubdate data-updated="true">24<span>th</span> of March 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Just thought I would add one more blog post to the millions of others floating around the net about how great unit testing is. I&#8217;ve spent the last week or so designing and implementing a cleaner version of one of the major modules of ArchAngel, and I couldn&#8217;t have done it without the regression test suite I wrote. It picked up all of those tiny little bugs that you just look over, but will cause you massive grief later on because they exist in parts of the code that &#8220;should just work&#8221;.</p>
+
+<p>The number one lesson I&#8217;ve learned from this is to never assume anything works, even very simple things.</p>
+
+<p>I started reading Pragmatic Unit Testing in C# with NUnit (<a href="http://www.pragprog.com/titles/utc2/pragmatic-unit-testing-in-c-with-nunit-2nd-ed">http://www.pragprog.com/titles/utc2/pragmatic-unit-testing-in-c-with-nunit-2nd-ed</a>) a few days into the design phase, and although I was doing some unit testing it pushed me into implementing more and better tests. It is a really good introduction to both how to unit test, as well as what to test. I highly recommend it for anyone working in C#. They have a Java/JUnit one there too, but I haven&#8217;t read that one.</p>
+
+<p>In short: Unit testing saved my sanity this week.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about" title="About the author (Jamie)" rel="author">Jamie</a></span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-03-24T06:51:00+00:00" pubdate data-updated="true">24<span>th</span> of March 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/contracting/'>Contracting</a>, <a class='category' href='/categories/unit-testing/'>Unit Testing</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing/" data-via="jamiepenney" data-counturl="http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2008/02/23/contracting-experiences-so-far/" title="Previous Post: Contracting Experiences So Far...">&laquo; Contracting Experiences So Far...</a>
+      
+      
+        <a class="basic-alignment right" href="/2008/03/29/ui-design-unit-testing-and-related-pains/" title="next Post: UI Design, Unit Testing, and Related Pains">UI Design, Unit Testing, and Related Pains &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Jamie Penney -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
