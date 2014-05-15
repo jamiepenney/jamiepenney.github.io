@@ -1,169 +1,173 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://www.jamiepenney.co.nz/2007/12/03/servicemix-woes/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2007/12/03/servicemix-woes/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/2007/12/04/more-servicemix-woes/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://www.jamiepenney.co.nz/2007/12/10/broken-motion-sensor-in-my-wii-controller/
-        </loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2007/12/04/more-servicemix-woes/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.jamiepenney.co.nz/2007/12/10/distributed-servicemix-project-now-working/
+            http://jamiepenney.github.io/2007/12/10/broken-motion-sensor-in-my-wii-controller/
         </loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.jamiepenney.co.nz/2007/12/11/xslt-meta-tag-output/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.jamiepenney.co.nz/2007/12/16/maven-support-in-netbeans-6-0/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.jamiepenney.co.nz/2008/01/11/architecture-chat/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.jamiepenney.co.nz/2008/01/11/joining-the-wonderful-world-of-contracting/
+            http://jamiepenney.github.io/2007/12/10/distributed-servicemix-project-now-working/
         </loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/2008/02/07/registering-for-gst/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2007/12/11/xslt-meta-tag-output/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/2008/02/07/playing-with-antlr/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2007/12/16/maven-support-in-netbeans-6-0/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/2008/02/23/contracting-experiences-so-far/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2008/01/11/architecture-chat/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.jamiepenney.co.nz/2008/03/29/ui-design-unit-testing-and-related-pains/
+            http://jamiepenney.github.io/2008/01/11/joining-the-wonderful-world-of-contracting/
         </loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/2008/05/29/stringbuilder-performance-issues/</loc>
-        <lastmod>2013-04-14T00:39:33+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2008/02/07/registering-for-gst/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/2008/09/01/teched-08-day-1/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2008/02/07/playing-with-antlr/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/2008/09/01/code-camp-2008/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2008/02/23/contracting-experiences-so-far/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/2008/09/02/teched-08-day-2/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.jamiepenney.co.nz/2008/09/04/teched-08-day-3/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2008/03/24/quick-update-on-unit-testing/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.jamiepenney.co.nz/2009/02/10/viewing-dependencies-between-projects-in-visual-studio/
+            http://jamiepenney.github.io/2008/03/29/ui-design-unit-testing-and-related-pains/
         </loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/2009/02/10/ook-interpreter-written-in-c-and-f/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2008/05/29/stringbuilder-performance-issues/</loc>
+        <lastmod>2013-04-14T12:39:33+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://jamiepenney.github.io/2008/09/01/teched-08-day-1/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://jamiepenney.github.io/2008/09/01/code-camp-2008/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://jamiepenney.github.io/2008/09/02/teched-08-day-2/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://jamiepenney.github.io/2008/09/04/teched-08-day-3/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.jamiepenney.co.nz/2009/02/10/twitter-or-how-i-learned-to-stop-worrying-and-love-short-messages/
+            http://jamiepenney.github.io/2009/02/10/viewing-dependencies-between-projects-in-visual-studio/
         </loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/2009/07/13/new-monitor/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2009/02/10/ook-interpreter-written-in-c-and-f/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.jamiepenney.co.nz/2009/07/20/strange-visual-studio-lockup-after-debugging/
+            http://jamiepenney.github.io/2009/02/10/twitter-or-how-i-learned-to-stop-worrying-and-love-short-messages/
         </loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/2009/08/08/fun-with-the-symbian-emulator/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.jamiepenney.co.nz/2009/09/14/windows-7-shortcut-keys/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.jamiepenney.co.nz/2009/12/12/nhibernate-and-the-repository-pattern/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://www.jamiepenney.co.nz/2010/03/24/dependency-viewer/</loc>
-        <lastmod>2013-04-14T00:44:17+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2009/07/14/new-monitor/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.jamiepenney.co.nz/2011/09/23/testing-content_for-in-rails-3-x-helpers-with-rspec/
+            http://jamiepenney.github.io/2009/07/21/strange-visual-studio-lockup-after-debugging/
         </loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://jamiepenney.github.io/2009/08/09/fun-with-the-symbian-emulator/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://jamiepenney.github.io/2009/09/15/windows-7-shortcut-keys/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://jamiepenney.github.io/2009/12/12/nhibernate-and-the-repository-pattern/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://jamiepenney.github.io/2010/03/25/dependency-viewer/</loc>
+        <lastmod>2013-04-14T12:44:17+12:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.jamiepenney.co.nz/2011/09/23/rails-3-form-builder-for-twitter-bootstrap-form-elements/
+            http://jamiepenney.github.io/2011/09/24/testing-content_for-in-rails-3-x-helpers-with-rspec/
         </loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.jamiepenney.co.nz/2011/09/27/getting-simplecov-and-spork-to-play-together/
+            http://jamiepenney.github.io/2011/09/24/rails-3-form-builder-for-twitter-bootstrap-form-elements/
         </loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.jamiepenney.co.nz/2012/10/03/getting-the-most-out-of-herokus-freebies/
+            http://jamiepenney.github.io/2011/09/28/getting-simplecov-and-spork-to-play-together/
         </loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/</loc>
-        <lastmod>2013-04-14T00:44:17+00:00</lastmod>
+        <loc>
+            http://jamiepenney.github.io/2012/10/04/getting-the-most-out-of-herokus-freebies/
+        </loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/404.html</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/2014/05/16/new-job-at-raygun-dot-io/</loc>
+        <lastmod>2014-05-16T09:32:03+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/about/</loc>
-        <lastmod>2013-04-13T23:14:55+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/404.html</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/blog/archives/</loc>
-        <lastmod>2013-04-14T00:44:17+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/about/</loc>
+        <lastmod>2013-04-14T11:14:55+12:00</lastmod>
     </url>
     <url>
-        <loc>http://www.jamiepenney.co.nz/robots.txt</loc>
-        <lastmod>2013-04-13T22:02:32+00:00</lastmod>
+        <loc>http://jamiepenney.github.io/blog/archives/</loc>
+        <lastmod>2014-05-16T09:32:03+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://jamiepenney.github.io/</loc>
+        <lastmod>2014-05-16T09:32:03+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://jamiepenney.github.io/robots.txt</loc>
+        <lastmod>2013-04-14T10:02:32+12:00</lastmod>
     </url>
 </urlset>

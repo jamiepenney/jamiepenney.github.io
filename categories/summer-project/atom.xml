@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Summer Project | Jamie's Space]]></title>
-  <link href="http://www.jamiepenney.co.nz/categories/summer-project/atom.xml" rel="self"/>
-  <link href="http://www.jamiepenney.co.nz/"/>
-  <updated>2013-04-14T03:49:49+00:00</updated>
-  <id>http://www.jamiepenney.co.nz/</id>
+  <link href="http://jamiepenney.github.io/categories/summer-project/atom.xml" rel="self"/>
+  <link href="http://jamiepenney.github.io/"/>
+  <updated>2014-05-16T09:43:05+12:00</updated>
+  <id>http://jamiepenney.github.io/</id>
   <author>
     <name><![CDATA[Jamie Penney]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Maven support in Netbeans 6.0]]></title>
-    <link href="http://www.jamiepenney.co.nz/2007/12/16/maven-support-in-netbeans-6-0/"/>
-    <updated>2007-12-16T06:37:00+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2007/12/16/maven-support-in-netbeans-6-0</id>
+    <link href="http://jamiepenney.github.io/2007/12/16/maven-support-in-netbeans-6-0/"/>
+    <updated>2007-12-16T19:37:00+13:00</updated>
+    <id>http://jamiepenney.github.io/2007/12/16/maven-support-in-netbeans-6-0</id>
     <content type="html"><![CDATA[<p>Today I started writing the message exchange beans for my ServiceMix/virtualisation benchmark. I have previously used Netbeans to develop these, but it usually requires manually adding the library JARs from the ServiceMix directory (plus any others it depends on) which is a bit of a pain.</p>
 
 <p>Not so anymore! I installed the Maven plugin for Netbeans when I first installed it, with the intention of trying it out. While I was trying to add the java source directory of the bean service unit I am developing I noticed that the directory was showing up as a Netbeans project (they have a different icon to regular directories in the Netbeans file dialogs). I opened it up as a project instead, and it gave me a project with all of the library files added, the ability to modify parts of the POM using a form, easy access to sub-projects (if you open the root project up first), easy access to resources, the works. I am so impressed with this.</p>
@@ -28,9 +28,9 @@
   
   <entry>
     <title type="html"><![CDATA[XSLT META Tag Output]]></title>
-    <link href="http://www.jamiepenney.co.nz/2007/12/11/xslt-meta-tag-output/"/>
-    <updated>2007-12-11T06:36:00+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2007/12/11/xslt-meta-tag-output</id>
+    <link href="http://jamiepenney.github.io/2007/12/11/xslt-meta-tag-output/"/>
+    <updated>2007-12-11T19:36:00+13:00</updated>
+    <id>http://jamiepenney.github.io/2007/12/11/xslt-meta-tag-output</id>
     <content type="html"><![CDATA[<p>My previous problem where the XSLT processor was outputting an unclosed meta tag has been solved. The W3C XSLT spec specifies that the processor should not output a new meta tag if there is one already present. Thus the way to fix the output so it did not add a meta tag was to insert one myself. However there are a few things to note. It will only do it within an html element that has the xhtml namespace. Also, if you do not have a trailing space before the closing / it will not work. See my example below (note I tried to use include-content-type="no" which may or may not have worked. It takes a while to recompile and deploy the service-unit so I haven't tried it):</p>
 
 <pre><code>&lt;xsl:output method="xhtml" include-content-type="no"/&gt;  
@@ -45,27 +45,27 @@
   
   <entry>
     <title type="html"><![CDATA[Distributed ServiceMix Project Now Working]]></title>
-    <link href="http://www.jamiepenney.co.nz/2007/12/10/distributed-servicemix-project-now-working/"/>
-    <updated>2007-12-10T06:32:00+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2007/12/10/distributed-servicemix-project-now-working</id>
+    <link href="http://jamiepenney.github.io/2007/12/10/distributed-servicemix-project-now-working/"/>
+    <updated>2007-12-10T19:32:00+13:00</updated>
+    <id>http://jamiepenney.github.io/2007/12/10/distributed-servicemix-project-now-working</id>
     <content type="html"><![CDATA[<p>The tutorial app I wrote is now working. There were a few different problems. Firstly, I had removed some information about the secured broker in servicemix.xml and replaced it with a single flow name in a container attribute. I had forgotten about this until I reloaded the config from the distribution. Secondly, I needed to set up multiple static network connectors in activemq.xml, not a single one with multiple I.P. addresses. If put multiple I.P. addresses in a single static() block it will pick one at random and try to connect to it, doing this until it finds a working one then stopping. What is needed is multiple networkConnector elements with a single I.P. address in each static() block. I didn't initially know how to do this because if I put two in it would give me an error. This leads to the next point. Thirdly, each networkConnector element needs a unique name (within the broker). So I gave them a name attribute corresponding to the ServiceMix instance they were connecting to. Fourthly, messages from the HTTP consumer service unit cannot be delivered to an endpoint on another ServiceMix instance (at least in my experience). I will post this to the mailing list later to see if there is a reason for this. Fifthly, and most importantly, ServiceMix 3.1.2 just plain does not work in my configuration. Upgrading to 3.2.1 fixed this and everything finally works. Well, except for my XSL transformation. They must have upgraded to a newer version of the XSLT processor (or used a different one), because it now ignores the directives I gave it telling it not to put unclosed <META> tags in because it does that now, even in XML output mode. My root element is an <html> so it may be overriding the xsl:ouput element (which it shouldn't). If the XSL transformation does not output valid XML (which requires all tags to be closed) then ServiceMix cannot pass the HTML back to jetty to display to the user. This is my next task.</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[More ServiceMix Woes]]></title>
-    <link href="http://www.jamiepenney.co.nz/2007/12/04/more-servicemix-woes/"/>
-    <updated>2007-12-04T06:30:00+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2007/12/04/more-servicemix-woes</id>
+    <link href="http://jamiepenney.github.io/2007/12/04/more-servicemix-woes/"/>
+    <updated>2007-12-04T19:30:00+13:00</updated>
+    <id>http://jamiepenney.github.io/2007/12/04/more-servicemix-woes</id>
     <content type="html"><![CDATA[<p>I'm still having major issues with ServiceMix. The ServiceMix instances will not connect to each other at all. I've tried everything I can find to configure ActiveMQ to allow message passing between them, but nothing has come of it yet. There are a few tcp connections between the two instances that I can see with netstat, but it doesn't show up in jconsole. It has to be an issue with connecting ActiveMQ instances on separate machines, as it seems to work just fine when the ServiceMix instances are both on the same machine. Another puzzling aspect is that the cluster example that ships with ServiceMix works fine across machines, but if I hot deploy components to it instead of using static deployment then they cannot be seen by the other ServiceMix instance. I may have to re-write the config for my application to a static deployment, but I would like to know how to get it working dynamically. This should keep me busy for the week.</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[ServiceMix woes]]></title>
-    <link href="http://www.jamiepenney.co.nz/2007/12/03/servicemix-woes/"/>
-    <updated>2007-12-03T06:28:00+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2007/12/03/servicemix-woes</id>
+    <link href="http://jamiepenney.github.io/2007/12/03/servicemix-woes/"/>
+    <updated>2007-12-03T19:28:00+13:00</updated>
+    <id>http://jamiepenney.github.io/2007/12/03/servicemix-woes</id>
     <content type="html"><![CDATA[<p>I've spent most of today trying to discover why my ServiceMix tutorial application won't work when I split the service units across multiple ServiceMix instances. Although I have specified that I am using the JMS message flow and the ActiveMQ brokers seem to be talking, the messages are not getting delivered. The message sent into the HTTP BC just gives back an exception about not being able to write a non xml fault to a non soap request. I have eliminated the virtual machines as the source of the error - this happens between instances running on separate windows machines within our home LAN as well. I have made sure that it is possible to have ServiceMix instances auto-discover each other by running the Cluster example on two separate machines. I have also checked that the Cluster example works between virtual machines. I can only assume that there is a problem in how ServiceMix is set up by default - something I will have to check by trying to create a simple example that is deployed rather than uses a stand-alone ServiceMix instance. Another option is to upgrade to the latest version of ServiceMix and see if they have changed the configuration (I didn't want to upgrade as I've written and tested the tutorial on 3.1.2).</p>
 ]]></content>
   </entry>

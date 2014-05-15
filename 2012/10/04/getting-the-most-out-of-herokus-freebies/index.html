@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Getting the most out of Heroku's freebies - Jamie's Space</title>
+  <meta name="author" content="Jamie Penney">
+
+  
+  <meta name="description" content="I used to use Heroku a few years back whenever I needed a little bit of Ruby on Rails hosting, but then I started needing background workers (which &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jamiepenney.github.io/2012/10/04/getting-the-most-out-of-herokus-freebies">
+  <link href="/favicon.ico" rel="icon">
+  
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jamie's Space" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1>Jamie's Space</h1>
+  
+    <h2><a href="/">JP</a></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation">
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jamiepenney.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Getting the Most Out of Heroku's Freebies</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-04T02:05:10+13:00" pubdate data-updated="true">4<span>th</span> of October 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I used to use <a href="http://www.heroku.com">Heroku</a> a few years back whenever I needed a little bit of Ruby on Rails hosting, but then I started needing background workers (which you can&#8217;t get for free) and larger databases so I shifted to self-hosting. I already had a Rimuhosting VPS, so it didn&#8217;t make sense to spend money when I didn&#8217;t need to.</p>
+
+<p>I&#8217;ve gotten sick of having to write cron jobs and organise monitoring and all that sort of busy work for what are pretty basic sites, so I decided to have another shot at using Heroku.</p>
+
+<p>Turns out my current side project (a place my family and I can record and share our weight loss goals) fits within the free tier for everything except for the email notification jobs. Drat. Luckily I can minimise the cost of this by using a gem called <a href="https://github.com/meskyanichi/hirefire">HireFire</a>. I will only need maybe a few minutes of worker time per month, and this gem will make sure that workers are spun up and down as needed so I don&#8217;t waste any money I don&#8217;t need to.</p>
+
+<p>On top of that, there are a number of free <a href="https://addons.heroku.com/">Heroku Addons</a> that can keep everything speedy on a low use site. The <a href="https://addons.heroku.com/memcache">Memcache</a> addon has a 5MB free option that you can hook into Rack::Cache and Rails for faster caching. If you are on a small site you will still get a bit of extra speed out of that.</p>
+
+<p>This next trick is a bit cheeky, but it kinda fits with my monitoring needs any way. The <a href="https://addons.heroku.com/newrelic">New Relic</a> addon offers uptime monitoring (as well as short term site performance stats), which it gives you by pinging your site on a scheduled basis. This has the side effect of keeping your app running - Heroku will shut down a free site that hasn&#8217;t been hit in a while. Still not sure if I&#8217;m ok with this or not&#8230;</p>
+
+<p>There is one more thing you might overlook - Gzip compression of static assets. Heroku&#8217;s Cedar stack serves requests directly (see the <a href="https://devcenter.heroku.com/articles/http-routing">HTTP Routing documentation</a>)to the application stack, so you don&#8217;t get HTTP caching or gzip compression for free. Your app needs to handle these itself, but this is relatively easy. You need two pieces of Rack middleware: Rack::Cache and Rack::Deflater.</p>
+
+<p>For Rack::Cache you will need to add the Memcache addon to your app in Heroku, install the <a href="https://github.com/mperham/dalli">dalli</a> gem and setup the Rack::Cache middleware to use it by adding this to your <code>config/environment/production.rb</code> file:</p>
+
+<p><code>config.middleware.use Rack::Cache,
+:metastore =&gt; "memcached://#{ENV['MEMCACHE_SERVERS']}",
+:entitystore =&gt; "memcached://#{ENV['MEMCACHE_SERVERS']}"
+</code>
+While you are there, set the cache store to use Dalli as well with <code>config.cache_store = :dalli_store</code></p>
+
+<p>Using Rack::Deflater is easy as pie. In <code>config.ru</code> add the following right above your <code>run MyApp::Application</code> line:
+<code>
+use Rack::Deflater
+</code>
+In theory you shouldn&#8217;t need to do this. Rails 3.1 added Rack::Deflater by default, but the Cedar stack on Heroku <a href="http://stackoverflow.com/questions/7824570/heroku-conflict-between-gzipping-assets-and-precompiling-assets">doesn&#8217;t seem to do it</a>. An unfortunate side effect of adding Deflater this way is it will gzip everything, including images. I&#8217;m still thinking of a way to get around this, probably with my own middleware wrapper around Deflater.</p>
+
+<p>That&#8217;s all I&#8217;ve done so far and things are pretty snappy. If you have any other tips for making the most out of Heroku, let me know in the comments.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about" title="About the author (Jamie)" rel="author">Jamie</a></span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-04T02:05:10+13:00" pubdate data-updated="true">4<span>th</span> of October 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/rails/'>Rails</a>, <a class='category' href='/categories/useful-information/'>Useful Information</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jamiepenney.github.io/2012/10/04/getting-the-most-out-of-herokus-freebies/" data-via="jamiepenney" data-counturl="http://jamiepenney.github.io/2012/10/04/getting-the-most-out-of-herokus-freebies/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/09/28/getting-simplecov-and-spork-to-play-together/" title="Previous Post: Getting SimpleCov and Spork to play together">&laquo; Getting SimpleCov and Spork to play together</a>
+      
+      
+        <a class="basic-alignment right" href="/2014/05/16/new-job-at-raygun-dot-io/" title="next Post: New job at Raygun.io">New job at Raygun.io &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Jamie Penney -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Useful | Jamie's Space]]></title>
+  <link href="http://jamiepenney.github.io/categories/useful/atom.xml" rel="self"/>
+  <link href="http://jamiepenney.github.io/"/>
+  <updated>2014-05-16T09:43:05+12:00</updated>
+  <id>http://jamiepenney.github.io/</id>
+  <author>
+    <name><![CDATA[Jamie Penney]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[New job at Raygun.io]]></title>
+    <link href="http://jamiepenney.github.io/2014/05/16/new-job-at-raygun-dot-io/"/>
+    <updated>2014-05-16T09:26:00+12:00</updated>
+    <id>http://jamiepenney.github.io/2014/05/16/new-job-at-raygun-dot-io</id>
+    <content type="html"><![CDATA[<p>This week I started a new job at <a href="http://raygun.io/" title="Raygun, exceptional error tracking">Raygun.io</a>, working on their error tracking software. Good times! I wrote a post for their blog about Resharper, you should <a href="http://raygun.io/blog/2014/05/favourite-resharper-features/">check it out</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

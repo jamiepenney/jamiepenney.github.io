@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Contracting | Jamie's Space]]></title>
-  <link href="http://www.jamiepenney.co.nz/categories/contracting/atom.xml" rel="self"/>
-  <link href="http://www.jamiepenney.co.nz/"/>
-  <updated>2013-04-14T03:49:49+00:00</updated>
-  <id>http://www.jamiepenney.co.nz/</id>
+  <link href="http://jamiepenney.github.io/categories/contracting/atom.xml" rel="self"/>
+  <link href="http://jamiepenney.github.io/"/>
+  <updated>2014-05-16T09:43:05+12:00</updated>
+  <id>http://jamiepenney.github.io/</id>
   <author>
     <name><![CDATA[Jamie Penney]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[New Monitor]]></title>
-    <link href="http://www.jamiepenney.co.nz/2009/07/13/new-monitor/"/>
-    <updated>2009-07-13T22:20:35+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2009/07/13/new-monitor</id>
+    <link href="http://jamiepenney.github.io/2009/07/14/new-monitor/"/>
+    <updated>2009-07-14T10:20:35+12:00</updated>
+    <id>http://jamiepenney.github.io/2009/07/14/new-monitor</id>
     <content type="html"><![CDATA[<p>Today I got a new 24" Samsung T240 for my office at home. I've been working from home a lot recently and have really been missing my dual monitor setup from work, even though it is only my laptop with an old 17" LCD. Two monitors definitely make a big difference to my productivity when coding. I already had a 22" Samsung 226BW, which now looks thoroughly inadequate next to the 24" as you can see from the photo below.</p>
 
 <p><img src="http://jamiepenney.co.nz/wp-content/uploads/2009/07/13072009079-1024x768.jpg" alt="My New Desk Arrangement" /></p>
@@ -28,9 +28,9 @@
   
   <entry>
     <title type="html"><![CDATA[TechEd 08 - Day 1]]></title>
-    <link href="http://www.jamiepenney.co.nz/2008/09/01/teched-08-day-1/"/>
-    <updated>2008-09-01T06:59:00+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2008/09/01/teched-08-day-1</id>
+    <link href="http://jamiepenney.github.io/2008/09/01/teched-08-day-1/"/>
+    <updated>2008-09-01T18:59:00+12:00</updated>
+    <id>http://jamiepenney.github.io/2008/09/01/teched-08-day-1</id>
     <content type="html"><![CDATA[<p>Figured I would write a little about each of the interesting sessions at TechEd, just as a note keeping exercise.</p>
 
 <h3>Keynote Speech</h3>
@@ -142,9 +142,9 @@
   
   <entry>
     <title type="html"><![CDATA[StringBuilder Performance Issues]]></title>
-    <link href="http://www.jamiepenney.co.nz/2008/05/29/stringbuilder-performance-issues/"/>
-    <updated>2008-05-29T06:54:00+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2008/05/29/stringbuilder-performance-issues</id>
+    <link href="http://jamiepenney.github.io/2008/05/29/stringbuilder-performance-issues/"/>
+    <updated>2008-05-29T18:54:00+12:00</updated>
+    <id>http://jamiepenney.github.io/2008/05/29/stringbuilder-performance-issues</id>
     <content type="html"><![CDATA[<p>We are working on a templating system, so as you can imagine we have to deal with the construction of massive strings of text. Conventional wisdom is to use a StringBuilder rather than a lot of String concatenation, but we wanted to test out the speed of StringBuilder to see if there were any issues that we may encounter. These might not be the best tests strictly speaking, but they show some interesting points that are worth thinking about. Here are our results:</p>
 
 <p><a href="http://lh3.ggpht.com/_TGyXpQbgdXc/SZ0C0dvobLI/AAAAAAAAABI/RSfIcqFGBZo/s1600-h/Profiler_first_run%5B5%5D.png"><img src="http://lh4.ggpht.com/_TGyXpQbgdXc/SZ0C1ErySBI/AAAAAAAAABY/Exv5SLnTIzs/Profiler_first_run_thumb%5B3%5D.png?imgmax=800" alt="Profiler_first_run" /></a></p>
@@ -209,9 +209,9 @@
   
   <entry>
     <title type="html"><![CDATA[UI Design, Unit Testing, and Related Pains]]></title>
-    <link href="http://www.jamiepenney.co.nz/2008/03/29/ui-design-unit-testing-and-related-pains/"/>
-    <updated>2008-03-29T06:49:00+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2008/03/29/ui-design-unit-testing-and-related-pains</id>
+    <link href="http://jamiepenney.github.io/2008/03/29/ui-design-unit-testing-and-related-pains/"/>
+    <updated>2008-03-29T19:49:00+13:00</updated>
+    <id>http://jamiepenney.github.io/2008/03/29/ui-design-unit-testing-and-related-pains</id>
     <content type="html"><![CDATA[<h3>Background</h3>
 
 <p>Currently I am working on merging two of the steps in the Workbench part of ArchAngel. The final two steps of the generation process used to be the actual generation of the files you wanted, and the analysis to see which files needed to be merged. This was two screens, one in which the user picked the groups of files to generate, and the other which showed conflict resolution. Only after all conflicts had been resolved could the newly generated and merged files be copied into the user's project directory.</p>
@@ -238,9 +238,9 @@
   
   <entry>
     <title type="html"><![CDATA[Quick Update on Unit Testing]]></title>
-    <link href="http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing/"/>
-    <updated>2008-03-24T06:51:00+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing</id>
+    <link href="http://jamiepenney.github.io/2008/03/24/quick-update-on-unit-testing/"/>
+    <updated>2008-03-24T19:51:00+13:00</updated>
+    <id>http://jamiepenney.github.io/2008/03/24/quick-update-on-unit-testing</id>
     <content type="html"><![CDATA[<p>Just thought I would add one more blog post to the millions of others floating around the net about how great unit testing is. I've spent the last week or so designing and implementing a cleaner version of one of the major modules of ArchAngel, and I couldn't have done it without the regression test suite I wrote. It picked up all of those tiny little bugs that you just look over, but will cause you massive grief later on because they exist in parts of the code that "should just work".</p>
 
 <p>The number one lesson I've learned from this is to never assume anything works, even very simple things.</p>

@@ -9,7 +9,7 @@
   <meta name="author" content="Jamie Penney">
 
   
-  <meta name="description" content="I&#8217;ve spent most of today trying to discover why my ServiceMix tutorial application won&#8217;t work when I split the service units across &hellip;">
+  <meta name="description" content="I&#8217;m still having major issues with ServiceMix. The ServiceMix instances will not connect to each other at all. I&#8217;ve tried everything I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.jamiepenney.co.nz/page/4">
+  <link rel="canonical" href="http://jamiepenney.github.io/page/4">
   <link href="/favicon.ico" rel="icon">
   
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -47,7 +47,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:www.jamiepenney.co.nz" />
+    <input type="hidden" name="q" value="site:jamiepenney.github.io" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -62,6 +62,42 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2007/12/04/more-servicemix-woes/">More ServiceMix Woes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-12-04T19:30:00+13:00" pubdate data-updated="true">4<span>th</span> of December 2007</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m still having major issues with ServiceMix. The ServiceMix instances will not connect to each other at all. I&#8217;ve tried everything I can find to configure ActiveMQ to allow message passing between them, but nothing has come of it yet. There are a few tcp connections between the two instances that I can see with netstat, but it doesn&#8217;t show up in jconsole. It has to be an issue with connecting ActiveMQ instances on separate machines, as it seems to work just fine when the ServiceMix instances are both on the same machine. Another puzzling aspect is that the cluster example that ships with ServiceMix works fine across machines, but if I hot deploy components to it instead of using static deployment then they cannot be seen by the other ServiceMix instance. I may have to re-write the config for my application to a static deployment, but I would like to know how to get it working dynamically. This should keep me busy for the week.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -84,7 +120,7 @@
   
 
 
-<time datetime="2007-12-03T06:28:00+00:00" pubdate data-updated="true">3<span>rd</span> of December 2007</time>
+<time datetime="2007-12-03T19:28:00+13:00" pubdate data-updated="true">3<span>rd</span> of December 2007</time>
         
       </p>
     
@@ -111,7 +147,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Jamie Penney -
+  Copyright &copy; 2014 - Jamie Penney -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

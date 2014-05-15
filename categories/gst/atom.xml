@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: GST | Jamie's Space]]></title>
-  <link href="http://www.jamiepenney.co.nz/categories/gst/atom.xml" rel="self"/>
-  <link href="http://www.jamiepenney.co.nz/"/>
-  <updated>2013-04-14T03:49:49+00:00</updated>
-  <id>http://www.jamiepenney.co.nz/</id>
+  <link href="http://jamiepenney.github.io/categories/gst/atom.xml" rel="self"/>
+  <link href="http://jamiepenney.github.io/"/>
+  <updated>2014-05-16T09:43:05+12:00</updated>
+  <id>http://jamiepenney.github.io/</id>
   <author>
     <name><![CDATA[Jamie Penney]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Registering For GST]]></title>
-    <link href="http://www.jamiepenney.co.nz/2008/02/07/registering-for-gst/"/>
-    <updated>2008-02-07T06:47:00+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2008/02/07/registering-for-gst</id>
+    <link href="http://jamiepenney.github.io/2008/02/07/registering-for-gst/"/>
+    <updated>2008-02-07T19:47:00+13:00</updated>
+    <id>http://jamiepenney.github.io/2008/02/07/registering-for-gst</id>
     <content type="html"><![CDATA[<p>Today I registered for GST using the online form at the IRD website (<a href="https://www.ird.govt.nz/cgi-bin/form.cgi?form=ir360">https://www.ird.govt.nz/cgi-bin/form.cgi?form=ir360</a>) after calling the IRD the other day and asking for a bit more information (they sent me some booklets). This was relatively painless, but necessitated by the fact that I am collecting GST from Slyce on my invoices. The good thing is you can apply to file every six months, which means I don't have to worry about it for a while. They also say they might get in touch with you to give you a bit of advice on how to file a GST return. Which sounds pretty good to me.</p>
 
 <p>Another thing I thought about today is ACC. It seems as a self employed person they calculate my ACC levies from my IR3 tax return at the end of the year. So I get stung with more bills around tax time. One thing I need to ring them and ask about is what happens if I stop being self employed half way through the year. Hopefully this should be just a case of ringing them and telling them when the time comes.</p>

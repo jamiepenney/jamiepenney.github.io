@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Rails | Jamie's Space]]></title>
-  <link href="http://www.jamiepenney.co.nz/categories/rails/atom.xml" rel="self"/>
-  <link href="http://www.jamiepenney.co.nz/"/>
-  <updated>2013-04-14T03:49:49+00:00</updated>
-  <id>http://www.jamiepenney.co.nz/</id>
+  <link href="http://jamiepenney.github.io/categories/rails/atom.xml" rel="self"/>
+  <link href="http://jamiepenney.github.io/"/>
+  <updated>2014-05-16T09:43:05+12:00</updated>
+  <id>http://jamiepenney.github.io/</id>
   <author>
     <name><![CDATA[Jamie Penney]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Getting the most out of Heroku's freebies]]></title>
-    <link href="http://www.jamiepenney.co.nz/2012/10/03/getting-the-most-out-of-herokus-freebies/"/>
-    <updated>2012-10-03T13:05:10+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2012/10/03/getting-the-most-out-of-herokus-freebies</id>
+    <link href="http://jamiepenney.github.io/2012/10/04/getting-the-most-out-of-herokus-freebies/"/>
+    <updated>2012-10-04T02:05:10+13:00</updated>
+    <id>http://jamiepenney.github.io/2012/10/04/getting-the-most-out-of-herokus-freebies</id>
     <content type="html"><![CDATA[<p>I used to use <a href="http://www.heroku.com">Heroku</a> a few years back whenever I needed a little bit of Ruby on Rails hosting, but then I started needing background workers (which you can't get for free) and larger databases so I shifted to self-hosting. I already had a Rimuhosting VPS, so it didn't make sense to spend money when I didn't need to.</p>
 
 <p>I've gotten sick of having to write cron jobs and organise monitoring and all that sort of busy work for what are pretty basic sites, so I decided to have another shot at using Heroku.</p>
@@ -50,9 +50,9 @@ In theory you shouldn't need to do this. Rails 3.1 added Rack::Deflater by defau
   
   <entry>
     <title type="html"><![CDATA[Getting SimpleCov and Spork to play together]]></title>
-    <link href="http://www.jamiepenney.co.nz/2011/09/27/getting-simplecov-and-spork-to-play-together/"/>
-    <updated>2011-09-27T17:12:17+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2011/09/27/getting-simplecov-and-spork-to-play-together</id>
+    <link href="http://jamiepenney.github.io/2011/09/28/getting-simplecov-and-spork-to-play-together/"/>
+    <updated>2011-09-28T06:12:17+13:00</updated>
+    <id>http://jamiepenney.github.io/2011/09/28/getting-simplecov-and-spork-to-play-together</id>
     <content type="html"><![CDATA[<p>I have been using <a href="https://github.com/colszowka/simplecov">SimpleCov</a> to measure the code coverage of my specifications, and it has been excellent. I would recommend it, if only for how easy it was to get it working with RSpec.</p>
 
 <p>I have run into one problem though - running it under <a href="https://github.com/timcharper/spork">Spork</a> generates no results! As far as I can tell, this is a problem with the way Spork caches your application files. SimpleCov uses the Ruby 1.9 built in profiling features, and either 1.9 or Spork need the files under inspection to be loaded after the profiling has started. Unfortunately your application files aren't reloaded when you are using Spork, that's kind of the point!</p>
@@ -74,9 +74,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Rails 3 Form builder for Twitter Bootstrap form elements]]></title>
-    <link href="http://www.jamiepenney.co.nz/2011/09/23/rails-3-form-builder-for-twitter-bootstrap-form-elements/"/>
-    <updated>2011-09-23T17:41:42+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2011/09/23/rails-3-form-builder-for-twitter-bootstrap-form-elements</id>
+    <link href="http://jamiepenney.github.io/2011/09/24/rails-3-form-builder-for-twitter-bootstrap-form-elements/"/>
+    <updated>2011-09-24T05:41:42+12:00</updated>
+    <id>http://jamiepenney.github.io/2011/09/24/rails-3-form-builder-for-twitter-bootstrap-form-elements</id>
     <content type="html"><![CDATA[<p><strong>Edit: I have updated this for Bootstrap 2. See the links at the bottom of the page for both versions.</strong></p>
 
 <p>I have been working on a website in my spare time to help me organise my life a bit better, and one of the things that always trips me up with these kinds of projects is the visual style. For a while I had a basic fixed width style I used, but it didn't really fit properly with what I wanted to build. A little while after I had started, Twitter released <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, a nice looking CSS framework. I decided to have a go at using it on my site (in a separate git branch of course) and it ended up only taking me less than an hour to get it all up and looks alright.</p>
@@ -98,9 +98,9 @@ Version 2 form builder:
   
   <entry>
     <title type="html"><![CDATA[Testing content_for in Rails 3.x Helpers with RSpec]]></title>
-    <link href="http://www.jamiepenney.co.nz/2011/09/23/testing-content_for-in-rails-3-x-helpers-with-rspec/"/>
-    <updated>2011-09-23T17:37:43+00:00</updated>
-    <id>http://www.jamiepenney.co.nz/2011/09/23/testing-content_for-in-rails-3-x-helpers-with-rspec</id>
+    <link href="http://jamiepenney.github.io/2011/09/24/testing-content_for-in-rails-3-x-helpers-with-rspec/"/>
+    <updated>2011-09-24T05:37:43+12:00</updated>
+    <id>http://jamiepenney.github.io/2011/09/24/testing-content_for-in-rails-3-x-helpers-with-rspec</id>
     <content type="html"><![CDATA[<p>After having a quick look around the net (and not finding anything up to date and useful) I came up with the following basic test structure for testing my ApplicationHelper methods that served up content_for things like page titles, javascript includes, etc:</p>
 
 <pre><code>require 'spec_helper'
