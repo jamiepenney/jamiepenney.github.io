@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ANTLR | Jamie's Space]]></title>
-  <link href="http://jamiepenney.github.io/categories/antlr/atom.xml" rel="self"/>
-  <link href="http://jamiepenney.github.io/"/>
-  <updated>2014-05-16T09:43:05+12:00</updated>
-  <id>http://jamiepenney.github.io/</id>
+  <link href="http://www.jamiepenney.co.nz/categories/antlr/atom.xml" rel="self"/>
+  <link href="http://www.jamiepenney.co.nz/"/>
+  <updated>2014-05-19T15:51:34+12:00</updated>
+  <id>http://www.jamiepenney.co.nz/</id>
   <author>
     <name><![CDATA[Jamie Penney]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Playing with ANTLR]]></title>
-    <link href="http://jamiepenney.github.io/2008/02/07/playing-with-antlr/"/>
+    <link href="http://www.jamiepenney.co.nz/2008/02/07/playing-with-antlr/"/>
     <updated>2008-02-07T19:48:00+13:00</updated>
-    <id>http://jamiepenney.github.io/2008/02/07/playing-with-antlr</id>
+    <id>http://www.jamiepenney.co.nz/2008/02/07/playing-with-antlr</id>
     <content type="html"><![CDATA[<p>Today I started doing some research on ANTLR (<a href="http://www.antlr.org/">http://www.antlr.org/</a>), a very powerful parser generator. It compiles language grammars into source code for a number of languages (I am working with C# output mostly, but it primarily creates Java). I am currently learning about Abstract Syntax Trees (<a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree">http://en.wikipedia.org/wiki/Abstract_syntax_tree</a>) and how I could use one of those instead of a Parse Tree (<a href="http://en.wikipedia.org/wiki/Parse_tree">http://en.wikipedia.org/wiki/Parse_tree</a>), which is what I have previously been working with when parsing languages. The major difference is I need to modify whatever language grammar I am using so that it produces an AST. I am hoping this isn't too difficult, but we will see how things go over the next few days after I get up to speed on ANTLR. So far it looks promising though. I am impressed with how powerful ANTLR is - because it produces source code, you can embed code in the language specification itself. It looks like it is going to be a bit of fun figuring this all out :-)</p>
 ]]></content>
   </entry>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Unit Testing | Jamie's Space]]></title>
-  <link href="http://jamiepenney.github.io/categories/unit-testing/atom.xml" rel="self"/>
-  <link href="http://jamiepenney.github.io/"/>
-  <updated>2014-05-16T09:43:05+12:00</updated>
-  <id>http://jamiepenney.github.io/</id>
+  <link href="http://www.jamiepenney.co.nz/categories/unit-testing/atom.xml" rel="self"/>
+  <link href="http://www.jamiepenney.co.nz/"/>
+  <updated>2014-05-19T15:51:34+12:00</updated>
+  <id>http://www.jamiepenney.co.nz/</id>
   <author>
     <name><![CDATA[Jamie Penney]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Testing content_for in Rails 3.x Helpers with RSpec]]></title>
-    <link href="http://jamiepenney.github.io/2011/09/24/testing-content_for-in-rails-3-x-helpers-with-rspec/"/>
+    <link href="http://www.jamiepenney.co.nz/2011/09/24/testing-content_for-in-rails-3-x-helpers-with-rspec/"/>
     <updated>2011-09-24T05:37:43+12:00</updated>
-    <id>http://jamiepenney.github.io/2011/09/24/testing-content_for-in-rails-3-x-helpers-with-rspec</id>
+    <id>http://www.jamiepenney.co.nz/2011/09/24/testing-content_for-in-rails-3-x-helpers-with-rspec</id>
     <content type="html"><![CDATA[<p>After having a quick look around the net (and not finding anything up to date and useful) I came up with the following basic test structure for testing my ApplicationHelper methods that served up content_for things like page titles, javascript includes, etc:</p>
 
 <pre><code>require 'spec_helper'
@@ -36,9 +36,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[NHibernate and the Repository Pattern]]></title>
-    <link href="http://jamiepenney.github.io/2009/12/12/nhibernate-and-the-repository-pattern/"/>
+    <link href="http://www.jamiepenney.co.nz/2009/12/12/nhibernate-and-the-repository-pattern/"/>
     <updated>2009-12-12T22:43:43+13:00</updated>
-    <id>http://jamiepenney.github.io/2009/12/12/nhibernate-and-the-repository-pattern</id>
+    <id>http://www.jamiepenney.co.nz/2009/12/12/nhibernate-and-the-repository-pattern</id>
     <content type="html"><![CDATA[<p>I've been writing a small time tracker web application to teach myself <a href="http://www.asp.net/mvc">ASP.Net MVC</a>, and am using NHibernate as the ORM. I'm trying to use best practises while building this app, and one issue I was trying to deal with was whether to build a layer over the top of NHibernate. My first set of controller actions used NHibernate directly, with a dependency injected ISessionFactory. This was fine for simple queries (like get Task with id 1) but it meant more and more of my model concerns were leaking into my Controllers. I had thought that NHibernate provided enough of an abstraction over my model for this to not matter, but I was quite wrong.</p>
 
 <p>Remembering I had seen some argument over whether using a generic repository was a good idea or not, I started searching around and found quite a few blogs saying it was a bad idea. They made sense, and one blog had a <a href="http://www.noctovis.net/blog/index.php/2009/01/22/my-thoughts-about-irepository/">great solution</a>: Create a Repository&lt;T, U> abstract class for common CRUD style operations, inherit your specific Repository from that, and only expose meaningful methods in your interface to client code. The benefits of this approach are many - your client code can only see methods that are applicable to each model class, you don't have to duplicate your common CRUD operations for each model class, and it is easy as pie to unit test.</p>
@@ -49,9 +49,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[UI Design, Unit Testing, and Related Pains]]></title>
-    <link href="http://jamiepenney.github.io/2008/03/29/ui-design-unit-testing-and-related-pains/"/>
+    <link href="http://www.jamiepenney.co.nz/2008/03/29/ui-design-unit-testing-and-related-pains/"/>
     <updated>2008-03-29T19:49:00+13:00</updated>
-    <id>http://jamiepenney.github.io/2008/03/29/ui-design-unit-testing-and-related-pains</id>
+    <id>http://www.jamiepenney.co.nz/2008/03/29/ui-design-unit-testing-and-related-pains</id>
     <content type="html"><![CDATA[<h3>Background</h3>
 
 <p>Currently I am working on merging two of the steps in the Workbench part of ArchAngel. The final two steps of the generation process used to be the actual generation of the files you wanted, and the analysis to see which files needed to be merged. This was two screens, one in which the user picked the groups of files to generate, and the other which showed conflict resolution. Only after all conflicts had been resolved could the newly generated and merged files be copied into the user's project directory.</p>
@@ -78,9 +78,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Quick Update on Unit Testing]]></title>
-    <link href="http://jamiepenney.github.io/2008/03/24/quick-update-on-unit-testing/"/>
+    <link href="http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing/"/>
     <updated>2008-03-24T19:51:00+13:00</updated>
-    <id>http://jamiepenney.github.io/2008/03/24/quick-update-on-unit-testing</id>
+    <id>http://www.jamiepenney.co.nz/2008/03/24/quick-update-on-unit-testing</id>
     <content type="html"><![CDATA[<p>Just thought I would add one more blog post to the millions of others floating around the net about how great unit testing is. I've spent the last week or so designing and implementing a cleaner version of one of the major modules of ArchAngel, and I couldn't have done it without the regression test suite I wrote. It picked up all of those tiny little bugs that you just look over, but will cause you massive grief later on because they exist in parts of the code that "should just work".</p>
 
 <p>The number one lesson I've learned from this is to never assume anything works, even very simple things.</p>

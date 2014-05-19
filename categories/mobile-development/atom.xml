@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Mobile Development | Jamie's Space]]></title>
-  <link href="http://jamiepenney.github.io/categories/mobile-development/atom.xml" rel="self"/>
-  <link href="http://jamiepenney.github.io/"/>
-  <updated>2014-05-16T09:43:05+12:00</updated>
-  <id>http://jamiepenney.github.io/</id>
+  <link href="http://www.jamiepenney.co.nz/categories/mobile-development/atom.xml" rel="self"/>
+  <link href="http://www.jamiepenney.co.nz/"/>
+  <updated>2014-05-19T15:51:34+12:00</updated>
+  <id>http://www.jamiepenney.co.nz/</id>
   <author>
     <name><![CDATA[Jamie Penney]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Fun with the Symbian Emulator]]></title>
-    <link href="http://jamiepenney.github.io/2009/08/09/fun-with-the-symbian-emulator/"/>
+    <link href="http://www.jamiepenney.co.nz/2009/08/09/fun-with-the-symbian-emulator/"/>
     <updated>2009-08-09T00:52:16+12:00</updated>
-    <id>http://jamiepenney.github.io/2009/08/09/fun-with-the-symbian-emulator</id>
+    <id>http://www.jamiepenney.co.nz/2009/08/09/fun-with-the-symbian-emulator</id>
     <content type="html"><![CDATA[<p>The other night I stumbled on the PyS60 project, an open source port of the python runtime to Symbian S60 based phones. I own a Nokia N95, and I got kind of excited about this because I would like to mess around with development for it but can't bring myself to work with C++ in my spare time.</p>
 
 <p>I thought it would be pretty easy to develop for as Python is interpreted, I thought I could just edit text files on the phone and run them to test them out. Turns out you can't do that (not easily anyway), you need to package them on your computer, then upload the package to the phone, then install it, then run it. That killed that idea.</p>

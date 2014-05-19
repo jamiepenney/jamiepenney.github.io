@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Raygun, | Jamie's Space]]></title>
-  <link href="http://jamiepenney.github.io/categories/raygun/atom.xml" rel="self"/>
-  <link href="http://jamiepenney.github.io/"/>
-  <updated>2014-05-16T09:43:05+12:00</updated>
-  <id>http://jamiepenney.github.io/</id>
+  <link href="http://www.jamiepenney.co.nz/categories/raygun/atom.xml" rel="self"/>
+  <link href="http://www.jamiepenney.co.nz/"/>
+  <updated>2014-05-19T15:51:34+12:00</updated>
+  <id>http://www.jamiepenney.co.nz/</id>
   <author>
     <name><![CDATA[Jamie Penney]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[New job at Raygun.io]]></title>
-    <link href="http://jamiepenney.github.io/2014/05/16/new-job-at-raygun-dot-io/"/>
+    <link href="http://www.jamiepenney.co.nz/2014/05/16/new-job-at-raygun-dot-io/"/>
     <updated>2014-05-16T09:26:00+12:00</updated>
-    <id>http://jamiepenney.github.io/2014/05/16/new-job-at-raygun-dot-io</id>
+    <id>http://www.jamiepenney.co.nz/2014/05/16/new-job-at-raygun-dot-io</id>
     <content type="html"><![CDATA[<p>This week I started a new job at <a href="http://raygun.io/" title="Raygun, exceptional error tracking">Raygun.io</a>, working on their error tracking software. Good times! I wrote a post for their blog about Resharper, you should <a href="http://raygun.io/blog/2014/05/favourite-resharper-features/">check it out</a>.</p>
 ]]></content>
   </entry>
