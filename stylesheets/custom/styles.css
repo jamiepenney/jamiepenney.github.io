@@ -1,0 +1,7 @@
+ul.main-navigation li {
+	clear:both;
+}
+
+nav ul.main-navigation {
+	padding-top: 2em;
+}
